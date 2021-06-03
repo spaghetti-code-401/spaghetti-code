@@ -1,5 +1,12 @@
 # spaghetti-code 🍝
 
+- **Idea**: Private-sessioned code battles (with Video/Audio chat)
+  - First player writes the code, second player guesses the output
+  - Both players attempt to solve the challenge as quick as possible
+  - Both players attempt to solve the challenge in smallest code size
+
+---
+
 - **Conflict Plan**
   - In the case of conflict, the group will resort to voting.
 
