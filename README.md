@@ -1,4 +1,4 @@
-# spaghetti-code
+# spaghetti-code 🍝
 
 - **Conflict Plan**
   - In the case of conflict, the group will resort to voting.
