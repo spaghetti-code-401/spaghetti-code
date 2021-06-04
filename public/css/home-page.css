@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
+
+/* variables */
+:root {
+  --editor-bg: #eee;
+  --editor-border: #3f87a6;
+}
+
+header {
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-logo {
+  max-width: 100%;
+  max-height: 50%;
+}
+
+#oauth-card {
+  position: fixed;
+  width: clamp(100px, 25vw, 500px);
+  height: clamp(100px, 15vw, 500px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  
+  /* background: #0B0B0B; */
+  background: rgba(0, 5, 0, 0.75);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  #oauth-card button {
+    padding: 2%;
+    color: #10F21A;
+    background: #0B0B0B;
+  }
+
+.editor {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor__wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0B0B0B;
+  padding: 2em;
+  border-radius: 3px;
+  border: 1px solid grey;
+}
+
+.editor__body {
+  flex: 1; /* so the body can take as much space as it can*/
+}
+
+/* most of the styling below is required by Ace */
+.editor__code {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 1px solid grey;
+}
+
+.ace_gutter {
+  border-left: 5px solid grey;
+}
