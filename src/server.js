@@ -19,6 +19,9 @@ app.get('/',(req,res)=>{
 app.get('/editor',(req,res)=>{
  res.render('editor')
 })
+app.get('/dashboard',(req,res)=>{
+  res.render('dashboard')
+})
 
 app.use(notFound);
 app.use(errorHandler);

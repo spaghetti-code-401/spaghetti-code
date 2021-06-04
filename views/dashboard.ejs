@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/dash-board.css">
+    <title>Spaghetti Code</title>
+</head>
+
+<body>
+    <!-- BEM methodology: Block, Element & Modifier -->
+    <header>
+        <nav>
+            <img id="header-logo" src="./assets/spaghetti-code-02.png" alt="spaghetti-code" />
+            <ul>
+                <li>    
+                    <img id="user-img" width="40px" height="40px" src="./assets/avatar.jpg"
+                        alt="">
+                </li>
+                <li>    
+                    <h1 id="user-name">Ahmad Abuyahya</h1>
+                </li>
+                <li>
+                    <h1 id="user-score">20 Points</h1>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="leader-board-btn">
+            <button>View Leader Board</button>
+        </div>
+        <div class="content">
+            <img src="" alt="">
+            <div>
+                <p>A two player game where one player would write code and the other should try and guess the output </p>
+                <button>Play</button>            
+            </div>
+        </div>
+        <div class="content">
+            <img src="" alt="">
+            <div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, magni. Expedita atque, pariatur, obcaecati suscipit sint temporibus quam ex hic inventore nihil ad laudantium quia voluptas modi repellat maxime quas. </p>  
+                <button>Play</button>                      
+            </div>
+        </div>
+        <div class="content">
+            <img src="" alt="">
+            <div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, magni. Expedita atque, pariatur, obcaecati suscipit sint temporibus quam ex hic inventore nihil ad laudantium quia voluptas modi repellat maxime quas. </p>    
+                <button>Play</button>                    
+            </div>           
+        </div>
+        <div class="content">            
+            <img src="" alt="">
+            <div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias, magni. Expedita atque, pariatur, obcaecati suscipit sint temporibus quam ex hic inventore nihil ad laudantium quia voluptas modi repellat maxime quas. </p> 
+                <button>write some code</button>                       
+            </div>
+        </div>
+    </main>
+
+    <!-- required Ace libraries -->
+    <script defer src="./js/ace-editor/src-min/ace.js"></script>
+    <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
+    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+    <!-- custom scripts -->
+    <script defer src="./js/home.js"></script>
+    <script defer src="./js/editor-console.js"></script>
+</body>
+
+</html>
