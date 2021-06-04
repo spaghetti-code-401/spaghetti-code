@@ -4,7 +4,9 @@
   "description": "- **Idea**: Private-sessioned code battles (with Video/Audio chat)   - First player writes the code, second player guesses the output   - Both players attempt to solve the challenge as quick as possible   - Both players attempt to solve the challenge in smallest code size",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "watch":"nodemon"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,10 @@
   },
   "homepage": "https://github.com/spaghetti-code-401/spaghetti-code#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.12",
+    "socketio": "^1.0.0"
   }
 }

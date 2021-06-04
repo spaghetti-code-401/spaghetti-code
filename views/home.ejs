@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/home-page.css">
+  <title>Spaghetti Code</title>
+</head>
+<body>
+  <!-- BEM methodology: Block, Element & Modifier -->
+  <header>
+    <img id="header-logo" src="./assets/spaghetti-code-02.png" alt="spaghetti-code" />
+  </header>
+  <div class="editor">
+    <div class="editor__wrapper">
+      <div class="editor__body">
+        <div id="editorCode" class="editor__code"></div>
+      </div>
+    </div>
+  </div>
+  <div id="oauth-card">
+    <button>Continue With GitHub</button>
+  </div>
+  <!-- required Ace libraries -->
+  <script defer src="./js/ace-editor/src-min/ace.js"></script>
+  <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
+  <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+  <!-- custom scripts -->
+  <script defer src="./js/home.js"></script>
+  <script defer src="./js/editor-console.js"></script>
+</body>
+</html>
