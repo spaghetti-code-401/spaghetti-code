@@ -8,14 +8,14 @@ const socket = io('/');
 //   host: '/',
 //   port: '3001'
 // }) 
-// const myPeer = new Peer() 
-const myPeer = new Peer(undefined, {
-  key: 'peerjs',
-  host: 'https://spaghetti-code.herokuapp.com',
-  port: 443,
-  path: '/',
-  secure: true,
-})
+const myPeer = new Peer() 
+// const myPeer = new Peer(undefined, {
+//   key: 'peerjs',
+//   host: 'https://spaghetti-code.herokuapp.com',
+//   port: 443,
+//   path: '/',
+//   secure: true,
+// })
 
 // get video
 const videoGrid = document.getElementById('video-grid')
