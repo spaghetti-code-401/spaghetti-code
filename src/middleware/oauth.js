@@ -47,7 +47,7 @@ async function exchangeTokenWithUserInfo(token) {
             'Authorization': `token ${token}`,
             'User-Agent': 'qaisw96/1.0'
         })
-        console.log('user ===>', userInfo.body);
+        // console.log('user ===>', userInfo.body);
         return userInfo.body
     }catch(e) {
         console.log(e.message);
@@ -59,12 +59,13 @@ async function getLocalUser(userObj) {
     try {
         let userRecord = {
             username: userObj.login,
-            password: 'oauth' 
+            password: 'oauth'
         }
-
+        
+        let token = jwt.sign({username: userRecord.username}, SECRET)
+        userRecord.token=token
         let newUser = new User(userRecord)
         let user = await newUser.save()
-        let token = jwt.sign({username: user.username}, SECRET)
 
         return [user, token]
     } catch(e) {
