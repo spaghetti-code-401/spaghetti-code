@@ -12,17 +12,23 @@ const tokenUrl = 'https://github.com/login/oauth/access_token';
 const userUrl = 'https://api.github.com/user';
 
 module.exports = async (req, res, next) => {
-    const code = req.query.code
-    
-    const token = await exchangeCodeWithToken(code)
-    
-    let remoteUser = await exchangeTokenWithUserInfo(token)
-    
-    let [localUser, localToken] = await getLocalUser(remoteUser)
-    req.user = localUser;
-    req.token = localToken;
+    try{
+        const code = req.query.code
+        
+        const token = await exchangeCodeWithToken(code)
 
-    next()
+        let remoteUser = await exchangeTokenWithUserInfo(token)
+
+        let [localUser, localToken] = await getLocalUser(remoteUser)
+        req.user = localUser;
+        req.token = localToken;
+        next()
+        
+    } catch(e) {
+        console.log(e.message);
+        next('INVALID LOGIN')
+    }
+
 
 }
 
@@ -56,14 +62,18 @@ async function exchangeTokenWithUserInfo(token) {
 
 
 async function getLocalUser(userObj) {
+    
     try {
         let userRecord = {
             username: userObj.login,
-            password: 'oauth'
+            password: 'oauth',
+            avatar_url: userObj.avatar_url,
+            bio: userObj.bio
         }
         
         let token = jwt.sign({username: userRecord.username}, SECRET)
         userRecord.token=token
+        // const check = jwt.verify(userRecord.token, SECRET)
         let newUser = new User(userRecord)
         let user = await newUser.save()
 

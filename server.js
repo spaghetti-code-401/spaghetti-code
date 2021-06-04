@@ -3,6 +3,9 @@
 const express = require('express');
 const app = express();
 
+const notFoundError = require('./src/handlers/404') 
+const errorsHandler = require('./src/handlers/500') 
+
 const mongoose = require('mongoose'); 
 
 const MONGO_URI = 'mongodb://localhost:27017/spagitti'
@@ -20,18 +23,22 @@ app.use(express.static('public'))
 //     res.send('Hello From Server')
 // })
 
-app.post('/oauth', Oauth , (req, res) => {
+app.get('/oauth', Oauth , (req, res) => {
     res.set('auth-token', req.token);
+    res.cookie('auth-token', req.token)
     res.json({
         username: req.user,
         token: req.token
     })
 })
 
-app.get('/code',bearer, (req,res)=>{
-res.send('hello from code rout')
+app.get('/code', bearer, (req,res)=>{
+  res.send('hello from code rout')
 
 })
+
+app.use('*', notFoundError)
+app.use(errorsHandler)
 
 mongoose.connect(MONGO_URI,{
     useCreateIndex: true,

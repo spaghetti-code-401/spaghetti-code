@@ -3,19 +3,24 @@
 const jwt = require('jsonwebtoken');
 const user =require('../models/user.js')
 
-const SECRET = 'mysecret' || process.env.SECRET ;
+const SECRET = 'mysecret' || process.env.SECRET;
 
 
-module.exports=(req,res,next)=>{
-   
-    console.log(req.headers.authorization);
-    const token=req.headers.authorization
-    const check=jwt.verify(token,SECRET)
-     
-    if(check){
-        next()
-    }else{
-        res.redirect('/outh')
+module.exports= async (req,res,next)=>{
+    try {
+        // if(!req.headers.cookie) {next('NO TOKEN')}
+        const token = req.headers.cookie.split('=')[1]
+        // const token = preToken[1].split('=')[1]
+      
+        const validUser = await user.authenticateWithToken(token);
+
+        if(validUser){
+            next()
+        }else{
+            next('INVALID')
+        }
+
+    } catch(e) {
+        next('INVALID LOGIN')
     }
-
 }
