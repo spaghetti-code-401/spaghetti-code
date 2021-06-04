@@ -11,10 +11,9 @@ const socket = io('/');
 // const myPeer = new Peer() 
 const myPeer = new Peer({
   key: 'peerjs',
-  host: 'https://spaghetti-code.herokuapp.com',
+  // host: '/',
   port: 443,
   path: '/',
-  secure: true,
 })
 
 // get video
