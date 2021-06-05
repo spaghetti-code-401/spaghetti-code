@@ -8,6 +8,7 @@ const SECRET = 'mysecret' || process.env.SECRET;
 
 module.exports= async (req,res,next)=>{
     try {
+        // req.headers.cookie = ""
         // if(!req.headers.cookie) {next('NO TOKEN')}
         const token = req.headers.cookie.split('=')[1]
         // const token = preToken[1].split('=')[1]

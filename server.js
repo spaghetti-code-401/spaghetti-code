@@ -24,8 +24,9 @@ app.use(express.static('public'))
 // })
 
 app.get('/oauth', Oauth , (req, res) => {
-    res.set('auth-token', req.token);
+    // res.set('auth-token', req.token);
     res.cookie('auth-token', req.token)
+    
     res.json({
         username: req.user,
         token: req.token
