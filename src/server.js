@@ -16,9 +16,11 @@ app.use(express.static('public'));
 app.get('/',(req,res)=>{
  res.render('home')
 })
+
 app.get('/editor',(req,res)=>{
  res.render('editor')
 })
+
 app.get('/dashboard',(req,res)=>{
   res.render('dashboard')
 })

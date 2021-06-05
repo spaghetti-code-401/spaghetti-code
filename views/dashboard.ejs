@@ -1,60 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/dash-board.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
     <title>Spaghetti Code</title>
-</head>
+  </head>
 
-<body>
-    <!-- BEM methodology: Block, Element & Modifier -->
+  <body>
+
     <header>
-        <nav>
-            <img id="header-logo" src="./assets/spaghetti-code-02.png" alt="spaghetti-code" />
-            <ul>
-                <li>    
-                    <img id="user-img" width="40px" height="40px" src="./assets/avatar.jpg"
-                        alt="">
-                </li>
-                <li>    
-                    <h1 id="user-name">Ahmad Abuyahya</h1>
-                </li>
-                <li>
-                    <h1 id="user-score">20 Points</h1>
-                </li>
-            </ul>
-        </nav>
+      <img
+        id="header-logo"
+        src="./assets/spaghetti-code-logo.png"
+        alt="spaghetti-code"
+      />
+      <img
+        id="header-avatar"
+        width="40px"
+        src="./assets/avatar.jpg"
+        alt=""
+      />
+      <p id="header-username">Ahmad Abuyahya</p>
+      <p id="header-score">Score: 20</p>
     </header>
+
     <main>
-        <div id="leader-board-btn">
-            <button>View Leader Board</button>
+      <div id="leader-board-btn">
+        <button>View Leader Board</button>
+      </div>
+      <div class="content">
+        <img src="" alt="" />
+        <div>
+          <p>One writes the code, the other guesses the output!</p>
         </div>
-        <div class="content">
-            <img src="" alt="">
-            <div>
-                <p>One writes the code, the other guesses the output!</p>
-                            
-            </div>
+      </div>
+      <div class="content">
+        <img src="" alt="" />
+        <div>
+          <p>Head to head code challenges... who's gonna finish first?</p>
         </div>
-        <div class="content">
-            <img src="" alt="">
-            <div>
-                <p>Head to head code challenges... who's gonna finish first?</p>  
-                                      
-            </div>
+      </div>
+      <div class="content">
+        <img src="" alt="" />
+        <div>
+          <p>Code editor... have fun with the console :D</p>
         </div>
-        <div class="content">
-            <img src="" alt="">
-            <div>
-                <p>Code editor... have fun with the console :D</p>    
-                                    
-            </div>           
-        </div>
-        <!-- <div class="content">            
+      </div>
+      <!-- <div class="content">            
             <img src="" alt="">
             <div>
                 <p></p>
@@ -69,6 +64,5 @@
     <!-- custom scripts -->
     <script defer src="./js/home.js"></script>
     <script defer src="./js/editor-console.js"></script>
-</body>
-
+  </body>
 </html>
