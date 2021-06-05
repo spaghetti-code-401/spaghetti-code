@@ -19,10 +19,12 @@ module.exports= async (req,res,next)=>{
         if(validUser){
             next()
         }else{
-            next('INVALID')
+            // next('INVALID')
+            res.redirect('/')
         }
 
     } catch(e) {
-        next('INVALID LOGIN')
+        // next('INVALID LOGIN')
+        res.redirect('/')
     }
 }

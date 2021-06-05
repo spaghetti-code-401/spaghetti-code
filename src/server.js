@@ -39,7 +39,7 @@ app.get('/dashboard', bearer, (req,res)=>{
   res.render('dashboard', {formattedUser});
 })
 
-app.use('*', notFound);
+app.use('*', bearer, notFound);
 app.use(errorHandler);
 
 module.exports = {
