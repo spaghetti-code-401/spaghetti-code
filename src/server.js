@@ -25,6 +25,15 @@ app.get('/oauth', oauth, (req, res) => {
   res.redirect('/dashboard')
 })
 
+app.get('/lobby', bearer,(req,res)=>{
+  let user = req.user;
+  let formattedUser = {
+    username: user.username,
+    score: user.score,
+    avatar_url: user.avatar_url
+  }
+  res.render('lobby', {formattedUser});
+})
 app.get('/editor', bearer,(req,res)=>{
   let user = req.user;
   let formattedUser = {
