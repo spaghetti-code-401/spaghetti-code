@@ -1,0 +1,33 @@
+
+header {
+  border-bottom: 2px solid #10f21a;
+  display: grid;
+  place-items: center;
+  gap: 10px;
+
+  color: #10f21a;
+
+  grid-template: 1fr / .1fr 2fr 3fr .5fr .5fr .5fr .1fr;
+}
+
+#header-logo {
+  grid-area: 1 / 2;
+  max-width: 100%;
+  justify-self: left;
+}
+
+#header-avatar {
+  grid-area: 1 / 6;
+  border-radius: 50%;
+}
+
+#header-username {
+  grid-area: 1 / 4;
+  font-size: clamp(1rem, -0.875rem + 2vw, 3.5rem);
+  
+}
+
+#header-score {
+  grid-area: 1 / 5;
+  font-size: clamp(1rem, -0.875rem + 2vw, 3.5rem);
+}
