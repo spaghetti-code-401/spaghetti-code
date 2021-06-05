@@ -16,7 +16,7 @@
   </header>
 
   <div id="oauth-card">
-    <button>Continue With GitHub</button>
+    <a id="tag" >Continue With GitHub</a>
   </div>
   
   <div class="editor">
@@ -34,5 +34,25 @@
   <!-- custom scripts -->
   <script defer src="./js/home.js"></script>
   <script defer src="./js/editor-console.js"></script>
+  <script>
+    const URL = 'https://github.com/login/oauth/authorize';
+
+    let options = {
+            client_id:'a41277711942cc3f0f87',
+            redirect_uri : 'http://localhost:3000/oauth'
+        }
+
+        // k1=v1&k2=v2
+        let queryString = Object.keys(options).map(key=> {
+            return `${key}=` + encodeURIComponent(options[key])
+        }).join('&');
+        //URL?k1=v1&k2=v2
+        let authURI = `${URL}?${queryString}`;
+        let link = document.getElementById('tag');
+        link.setAttribute('href', authURI);
+
+
+</script>
+
 </body>
 </html>
