@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/dashboard.css" />
     <title>Spaghetti Code</title>
   </head>
 
   <body>
-
     <header>
       <img
         id="header-logo"
@@ -23,38 +23,30 @@
         src="<%= formattedUser.avatar_url %>"
         alt=""
       />
-      <p id="header-username"><%= formattedUser.username %></p>
+      <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
       <p id="header-score">Score: <%= formattedUser.score %></p>
     </header>
 
     <main>
-      <div id="leader-board-btn">
-        <button>View Leader Board</button>
-      </div>
-      <div class="content">
-        <img src="" alt="" />
-        <div>
+      <section id="modes">
+        <a href="">
+          <div id="leader-board-btn">
+            <button>View Leader Board</button>
+          </div>
+        </a>
+        <a class="mode-link" href="">
+          <img src="" alt="" />
           <p>One writes the code, the other guesses the output!</p>
-        </div>
-      </div>
-      <div class="content">
-        <img src="" alt="" />
-        <div>
+        </a>
+        <a class="mode-link" href="">
+          <img src="" alt="" />
           <p>Head to head code challenges... who's gonna finish first?</p>
-        </div>
-      </div>
-      <div class="content">
-        <img src="" alt="" />
-        <div>
+        </a>
+        <a class="mode-link" href="/editor">
+          <img src="" alt="" />
           <p>Code editor... have fun with the console :D</p>
-        </div>
-      </div>
-      <!-- <div class="content">            
-            <img src="" alt="">
-            <div>
-                <p></p>
-            </div>
-        </div> -->
+        </a>
+      </section>
     </main>
 
     <!-- required Ace libraries -->
