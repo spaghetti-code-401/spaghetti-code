@@ -3,7 +3,6 @@
 header {
   height: 10%;
   display: flex;
-  justify-content: flex-start;
   align-items: center;
 }
 main{
@@ -46,7 +45,7 @@ nav ul{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     color:#10f21a;
     list-style: none;
     margin-right: 10vh;
@@ -69,24 +68,22 @@ nav ul li{
 }
 .content{
     border:2px solid #10f21a;
-    width:80%;
-    height: 50vh;
-    margin-bottom: 10vh;
+    width:50%;
+    margin-bottom: 2vh;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content:space-evenly;
     align-items: center;
 }
 .content img{
+    border:2px solid #10f21a;
     width: 15%;
     height: 90%;
-    border:2px solid #10f21a;
     
 }
 .content div{
     width: 75%;
     height:90%;
-    border:2px solid #10f21a;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -95,9 +92,4 @@ nav ul li{
 .content div p {
     color: #10f21a;
     margin: 5vh;
-}
-.content div button {
-    padding: 2%;
-    color: #10f21a;
-    background: #0b0b0b;
 }
