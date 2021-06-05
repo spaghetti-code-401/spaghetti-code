@@ -30,8 +30,13 @@ app.get('/editor', bearer,(req,res)=>{
 })
 
 app.get('/dashboard', bearer, (req,res)=>{
-  
-  res.render('dashboard')
+  let user = req.user;
+  let formattedUser = {
+    username: user.username,
+    score: user.score,
+    avatar_url: user.avatar_url
+  }
+  res.render('dashboard', {formattedUser});
 })
 
 app.use('*', notFound);

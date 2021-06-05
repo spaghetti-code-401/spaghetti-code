@@ -20,11 +20,11 @@
       <img
         id="header-avatar"
         width="40px"
-        src="./assets/avatar.jpg"
+        src="<%= formattedUser.avatar_url %>"
         alt=""
       />
-      <p id="header-username">Ahmad Abuyahya</p>
-      <p id="header-score">Score: 20</p>
+      <p id="header-username"><%= formattedUser.username %></p>
+      <p id="header-score">Score: <%= formattedUser.score %></p>
     </header>
 
     <main>
@@ -58,11 +58,11 @@
     </main>
 
     <!-- required Ace libraries -->
-    <script defer src="./js/ace-editor/src-min/ace.js"></script>
+    <!-- <script defer src="./js/ace-editor/src-min/ace.js"></script>
     <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
-    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script> -->
     <!-- custom scripts -->
-    <script defer src="./js/home.js"></script>
-    <script defer src="./js/editor-console.js"></script>
+    <!-- <script defer src="./js/home.js"></script>
+    <script defer src="./js/editor-console.js"></script> -->
   </body>
 </html>

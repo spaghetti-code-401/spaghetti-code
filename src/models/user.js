@@ -9,7 +9,8 @@ const userSchema = {
     password: { type: String, required: true },
     token: { type: String, required: true },
     avatar_url: { type: String},
-    bio: { type: String}
+    bio: { type: String},
+    score: { type: Number, default: 0 }
 };
 const users = new mongoose.Schema(userSchema);
 
@@ -21,7 +22,7 @@ users.statics.authenticateWithToken = async function (token) {
         let user = await this.findOne({ username: parsedToken.username })
         // console.log('user', user);
         if (user) {
-             return true; 
+             return user; 
         } else {
             return false
         }

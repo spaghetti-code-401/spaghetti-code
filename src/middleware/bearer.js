@@ -14,6 +14,7 @@ module.exports= async (req,res,next)=>{
         // const token = preToken[1].split('=')[1]
       
         const validUser = await user.authenticateWithToken(token);
+        req.user = validUser;
 
         if(validUser){
             next()
