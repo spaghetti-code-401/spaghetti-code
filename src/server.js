@@ -37,8 +37,11 @@ app.get('/lobby', bearer,(req,res)=>{
     score: user.score,
     avatar_url: user.avatar_url
   }
-  res.render('lobby', {formattedUser});
+  // API comment
+  // res.json(formattedUser);
+  res.render('lobby', { formattedUser });
 })
+
 app.get('/editor', bearer,(req,res)=>{
   let user = req.user;
   let formattedUser = {
@@ -49,7 +52,7 @@ app.get('/editor', bearer,(req,res)=>{
   res.render('editor', {formattedUser});
 })
 
-app.get('/dashboard', bearer, (req,res)=>{
+app.get('/dashboard', bearer, (req ,res) => {
   let user = req.user;
   let formattedUser = {
     username: user.username,
@@ -71,8 +74,6 @@ io.on('connection', client => {
   });
 
   client.on('newGame', newGameHandler);
-  // client.on('joinGame', joinGameHandler);
-  
   function newGameHandler() {
     const roomCode = makeId(5);
     clientRooms[client.id] = roomCode;
@@ -82,10 +83,48 @@ io.on('connection', client => {
     // state[roomCode] = initGame()
 
     client.join(roomCode);
+    
+    const room = io.sockets.adapter.rooms.get(roomCode);
+    // console.log('AFTER first player joined game', io.sockets.adapter.rooms)
+    console.log('AFTER first player joined game', room)
+
     client.number = 1;
     client.emit('init', 1)
   }
+
+  client.on('joinGame', joinGameHandler);
+  function joinGameHandler(roomCode) {
+    const room = io.sockets.adapter.rooms.get(roomCode);
+    // const room = io.sockets.adapter.rooms;
+    // console.log('room', room);
+    // console.log('roomCode', roomCode);
+
+
+    let players;
+    if (room) players = room.size; // similar to array.length
+
+    if (players === 0) {
+      client.emit('unknownGame');
+      return;
+    } else if (players > 1) {
+      client.emit('tooManyPlayers');
+      return;
+    }
+
+    clientRooms[client.id] = roomCode;
+    // console.log('BEFORE player 2', room.size)
+    client.join(roomCode);
+    // console.log('AFTER player 2', room.size)
+    client.number = 2;
+    client.emit('init', 2);
+
+    gameHandler(roomCode);
+  }
 });
+
+function gameHandler(roomCode) {
+  io.sockets.in(roomCode).emit('gameState', { msg: 'game Started!!' })
+}
 
 
 

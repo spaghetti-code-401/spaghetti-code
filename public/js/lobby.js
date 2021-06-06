@@ -9,15 +9,16 @@ const newGameButton = document
 const joinGameButton = document
   .getElementById('join-game-button')
   .addEventListener('click', joinGameHandler);
-const roomCode = document.getElementById('room-code-input').value;
+const roomCodeInput = document.getElementById('room-code-input');
 const roomCodeDisplay = document.getElementById('room-code-display');
 
 // Socket Listeners
 socket.on('init', initHandler);
 socket.on('roomCode', roomCodeHandler);
+socket.on('unknownGame', unknownGameHandler);
+socket.on('tooManyPlayers', tooManyPlayersHandler);
 
-
-
+socket.on('gameState', gameStateHandler);
 
 // Handlers
 function newGameHandler(e) {
@@ -27,6 +28,7 @@ function newGameHandler(e) {
 }
 function joinGameHandler(e) {
   e.preventDefault();
+  const roomCode = roomCodeInput.value;
 
   socket.emit('joinGame', roomCode);
 }
@@ -36,5 +38,28 @@ function initHandler(payload) {
 }
 
 function roomCodeHandler(roomCode) {
-  roomCodeDisplay.innerText = roomCode;
+  // roomCodeDisplay.innerText = roomCode;
+  roomCodeDisplay.textContent = roomCode;
+}
+
+function unknownGameHandler() {
+  reset();
+  alert('Unknown game code');
+}
+function tooManyPlayersHandler() {
+  reset();
+  alert('Game in progress');
+}
+function reset() {
+  playerNumber = null;
+  roomCodeInput.value = '';
+  roomCodeDisplay.textContent = '';
+}
+
+// GAME STATE HANDLER
+function gameStateHandler(payload) {
+  alert(payload.msg)
+  console.log(payload.msg)
+
+  //// render game
 }
