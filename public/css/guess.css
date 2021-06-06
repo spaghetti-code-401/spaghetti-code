@@ -1,15 +1,20 @@
 main{
-    display: flex;
-    flex-direction:row ;
-    justify-content: space-evenly;
-    height: 90%;
+  display: flex;
+  flex-direction:row ;
+  justify-content: space-evenly;
+  height: 90%;
 }
-#rules{
-    width: 25%;
-    padding: 2%;
+#game-screen {
+  display: flex;
+  flex-direction:row ;
+  justify-content: space-evenly;
+  height: 100%;
 }
-#right-aside{
-    width: 25%;
-    padding: 2%;
-
+#rules {
+  width: 25%;
+  padding: 2%;
+}
+#right-aside {
+  width: 25%;
+  padding: 2%;
 }

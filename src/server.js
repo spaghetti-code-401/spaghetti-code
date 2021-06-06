@@ -110,7 +110,7 @@ io.on('connection', client => {
     let players;
     if (room) players = room.size; // similar to array.length
 
-    if (players === 0) {
+    if (players === 0 || !players) {
       client.emit('unknownGame');
       return;
     } else if (players > 1) {

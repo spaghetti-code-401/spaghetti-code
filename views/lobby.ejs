@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/editor.css" />
     <link rel="stylesheet" href="./css/lobby.css" />
     <title>Spaghetti Code</title>
   </head>
@@ -23,35 +24,86 @@
         src="<%= formattedUser.avatar_url %>"
         alt=""
       />
-      <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
+      <a href="/dashboard" id="header-username"
+        ><%= formattedUser.username %></a
+      >
       <p id="header-score">Score: <%= formattedUser.score %></p>
     </header>
 
     <main>
       <section id="join-game-card">
-       <div id="create-game">
-           <form action="">
-               <button id="new-game-button" type="submit">Create Game</button>
-               <p id="room-code-display"></p>
-           </form>
-       </div>
-       <div id="seperator"></div>
-       <div id="join-game">
-        <form action="">
+        <div id="create-game">
+          <form action="">
+            <button id="new-game-button" type="submit">Create Game</button>
+            <p id="room-code-display-span">
+              > <span id="room-code-display"></span>
+            </p>
+          </form>
+        </div>
+        <div id="separator"></div>
+        <div id="join-game">
+          <form action="">
             <button id="join-game-button" type="submit">join Game</button>
-            <input id="room-code-input" placeholder="game code" type="text" required />
-        </form>
-       </div>
+            <input
+              id="room-code-input"
+              placeholder="game code"
+              type="text"
+              required
+            />
+          </form>
+        </div>
+      </section>
+
+      <section id="game-screen">
+        <div id="rules">
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam
+            temporibus dolorem officiis velit aut explicabo, illo adipisci
+            maiores quo et obcaecati dolorum odit. Consectetur dolorum
+            asperiores omnis, dolores repudiandae provident!
+          </p>
+        </div>
+        <div class="editor">
+          <div class="editor__wrapper">
+            <div class="editor__body">
+              <div id="editorCode" class="editor__code"></div>
+            </div>
+            <div class="editor__footer">
+              <div class="editor__footer--left">
+                <button class="editor__btn editor__run">Run ></button>
+                <button class="editor__btn editor__reset">Reset</button>
+                <button class="editor__btn editor__verify">Verify >>></button>
+              </div>
+              <div class="editor__footer--right">
+                <div class="editor__console">
+                  <ul class="editor__console-logs"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="right-aside">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor ipsum
+            amet ratione atque nisi eos rem dicta laboriosam mollitia? Fugit
+            laudantium quia corrupti dolore omnis officia ad explicabo, culpa
+            dignissimos!
+          </p>
+          <form action="">
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <button type="submit">guess</button>
+          </form>
+        </div>
       </section>
     </main>
 
     <!-- required Ace libraries -->
-    <!-- <script defer src="./js/ace-editor/src-min/ace.js"></script>
-    <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
-    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script> -->
+    <script src="./js/ace-editor/src-min/ace.js"></script>
+    <script src="./js/ace-editor/src-min/mode-javascript.js"></script>
+    <script src="./js/ace-editor/src-min/ext-language_tools.js"></script>
     <!-- custom scripts -->
-    <!-- <script defer src="./js/home.js"></script>
-    <script defer src="./js/editor-console.js"></script> -->
+    <script src="./js/guess.js"></script>
+    <script src="./js/editor-console.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/lobby.js"></script>
   </body>
