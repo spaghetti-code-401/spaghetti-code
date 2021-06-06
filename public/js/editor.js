@@ -1,3 +1,5 @@
+const socket = io('/')
+
 // Retrieve Elements
 const consoleLogList = document.querySelector('.editor__console-logs');
 const executeCodeBtn = document.querySelector('.editor__run');

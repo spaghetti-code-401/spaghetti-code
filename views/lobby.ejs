@@ -31,15 +31,15 @@
       <section id="join-game-card">
        <div id="create-game">
            <form action="">
-               <button type="submit">Create Game</button>
-               <p></p>
+               <button id="new-game-button" type="submit">Create Game</button>
+               <p id="room-code-display"></p>
            </form>
        </div>
        <div id="seperator"></div>
        <div id="join-game">
         <form action="">
-            <button type="submit">join Game</button>
-            <input placeholder="game code" type="text" required>
+            <button id="join-game-button" type="submit">join Game</button>
+            <input id="room-code-input" placeholder="game code" type="text" required>
         </form>
        </div>
       </section>
@@ -52,5 +52,7 @@
     <!-- custom scripts -->
     <!-- <script defer src="./js/home.js"></script>
     <script defer src="./js/editor-console.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/lobby.js"></script>
   </body>
 </html>
