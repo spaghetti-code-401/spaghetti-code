@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/header.css" />
     <link rel="stylesheet" href="./css/dashboard.css" />
@@ -29,23 +30,33 @@
 
     <main>
       <section id="modes">
-        <a href="">
+        <!-- <a href="" class="box-shadow-button">
           <div id="leader-board-btn">
             <button>View Leader Board</button>
           </div>
-        </a>
-        <a class="mode-link" href="">
-          <img src="" alt="" />
+        </a> -->
+
+        <a id="leaderboard-button" class="box-shadow-button" href="/leaderboard"><span class="fal fa-trophy"></span> Leaderboard</a>
+        
+        <a class="mode-card box-shadow-card" href="">
+          <!-- <img src="" alt="" /> -->
+          <i class="fal fa-lightbulb-exclamation"></i>
           <p>One writes the code, the other guesses the output!</p>
         </a>
-        <a class="mode-link" href="">
-          <img src="" alt="" />
+        
+        <a class="mode-card box-shadow-card" href="">
+          <!-- <img src="" alt="" /> -->
+          <!-- <i class="fal fa-clock"></i> -->
+          <i class="fal fa-swords"></i>
           <p>Head to head code challenges... who's gonna finish first?</p>
         </a>
-        <a class="mode-link" href="/editor">
-          <img src="" alt="" />
+        
+        <a class="mode-card box-shadow-card" href="/editor">
+          <!-- <img src="" alt="" /> -->
+          <i class="fal fa-pencil"></i>
           <p>Code editor... have fun with the console :D</p>
         </a>
+
       </section>
     </main>
 

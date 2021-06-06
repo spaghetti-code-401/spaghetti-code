@@ -42,8 +42,10 @@ header {
 
     transition:  0.1s ease;
   }
-  #oauth-card button {
+  #oauth-link-github {
     max-width: 75%;
+    text-align: center;
+    cursor: pointer;
     
     padding: 2%;
     color: #10F21A;
@@ -52,18 +54,21 @@ header {
 
     transition:  0.1s ease;
   }
-  #oauth-card button:hover {
+  #oauth-link-github:hover {
     transform: translate(3%, -3%);
     box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A;
 
     transition:  0.1s ease;
   }
-  #oauth-card button:active {
+  #oauth-link-github:active {
     transform: translate(0%, 0%);
     box-shadow: none;
 
     transition:  0.1s ease;
   }
+    #oauth-link-github span {
+      font-size: 16px;
+    }
 
 .editor {
   height: 90%;
