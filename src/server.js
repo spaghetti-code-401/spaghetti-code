@@ -24,12 +24,19 @@ const io = require('socket.io')(server);
 app.get('/',(req,res)=>{
  res.render('home')
 })
-
 app.get('/oauth', oauth, (req, res) => {
   res.cookie('auth-token', req.token)
   res.redirect('/dashboard')
 })
-
+app.get('/guess', bearer,(req,res)=>{
+  let user = req.user;
+  let formattedUser = {
+    username: user.username,
+    score: user.score,
+    avatar_url: user.avatar_url
+  }
+  res.render('guess', {formattedUser});
+})
 app.get('/lobby', bearer,(req,res)=>{
   let user = req.user;
   let formattedUser = {

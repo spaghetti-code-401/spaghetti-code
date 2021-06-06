@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <link rel="stylesheet" href="./css/editor.css">
+  <link rel="stylesheet" href="./css/guess.css">
+  <title>spaghettiCode</title>
+</head>
+<body>
+  <header>
+    <img
+      id="header-logo"
+      src="./assets/spaghetti-code-logo.png"
+      alt="spaghetti-code"
+    />
+    <img
+      id="header-avatar"
+      width="40px"
+      src="<%= formattedUser.avatar_url %>"
+      alt=""
+    />
+    <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
+    <p id="header-score">Score: <%= formattedUser.score %></p>
+  </header>
+  <!-- BEM methodology: Block, Element & Modifier -->
+  <main>
+    <div id="rules">
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam temporibus dolorem officiis velit aut explicabo, illo adipisci maiores quo et obcaecati dolorum odit. Consectetur dolorum asperiores omnis, dolores repudiandae provident!
+      </p>
+    </div>
+    <div class="editor">
+      <div class="editor__wrapper">
+        <div class="editor__body">
+          <div id="editorCode" class="editor__code"></div>
+        </div>
+        <div class="editor__footer">
+          <div class="editor__footer--left">
+            <button class="editor__btn editor__run">Run ></button>
+            <button class="editor__btn editor__reset">Reset</button>
+            <button class="editor__btn editor__verify">Verify >>></button>
+          </div>
+          <div class="editor__footer--right">
+            <div class="editor__console">
+              <ul class="editor__console-logs"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="right-aside">
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor ipsum amet ratione atque nisi eos rem dicta laboriosam mollitia? Fugit laudantium quia corrupti dolore omnis officia ad explicabo, culpa dignissimos!</p>
+      <form action="">
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <button type="submit">guess</button>
+      </form>
+    </div>
+  </main>
+  <!-- required Ace libraries -->
+  <script src="./js/ace-editor/src-min/ace.js"></script>
+  <script src="./js/ace-editor/src-min/mode-javascript.js"></script>
+  <script src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+  <!-- custom scripts -->
+  <script src="./js/guess.js"></script>
+  <script src="./js/editor-console.js"></script>
+</body>
+</html>
