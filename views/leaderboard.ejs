@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
+    <link rel="stylesheet" href="./css/leaderboard.css" />
+    <title>Spaghetti Code</title>
+  </head>
+
+  <body>
+    <header>
+      <img
+        id="header-logo"
+        src="./assets/spaghetti-code-logo.png"
+        alt="spaghetti-code"
+      />
+      <img
+        id="header-avatar"
+        width="40px"
+        src="<%= formattedUser[0].avatar_url %>"
+        alt=""
+      />
+      <a href="/dashboard" id="header-username"><%= formattedUser[0].username %></a>
+      <p id="header-score">Score: <%= formattedUser[0].score %></p>
+    </header>
+    
+    <main>
+        <%formattedUser.forEach(itam=>{%>
+     
+        <img
+        id="img"
+        width="40px"
+        src="<%= formattedUser[0].avatar_url %>"
+        alt=""
+      />
+         <a id=user><%= formattedUser[0].username %></a>
+        <a id=score><%= formattedUser[0].score %></a>
+    
+            <%})%>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/leaderboard.js"></script>
+  </body>
+</html>
