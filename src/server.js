@@ -70,6 +70,17 @@ app.get('/dashboard', bearer, (req ,res) => {
   res.render('dashboard', {formattedUser});
 })
 
+app.get('/leaderboard',bearer, (req ,res) => {
+  let user = req.user;
+  let formattedUser = [{
+    username: user.username,
+    score: user.score,
+    avatar_url: user.avatar_url
+  }]
+  
+  res.render('leaderboard', {formattedUser});
+})
+
 // -------------SOCKET-------------
 const clientRooms = {}
 
