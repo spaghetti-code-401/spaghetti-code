@@ -130,6 +130,7 @@ io.on('connection', client => {
   }
 
   client.on('editorInputChange', editorInputChangeHandler);
+  client.on('firstPlayerSubmission', firstPlayerSubmissionHandler);
 });
 
 function gameHandler(roomCode) {
@@ -141,6 +142,10 @@ function editorInputChangeHandler(payload) {
   console.log(payload.roomCode);
   io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
 }
+
+function firstPlayerSubmissionHandler(payload) {
+  io.sockets.to(payload.roomCode).emit('receiveFirstPlayerSubmission', payload.editorCodeResult);
+};
 
 
 

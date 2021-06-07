@@ -1,6 +1,7 @@
 const socket = io('/');
 
 let playerNumber, roomCode;
+const guessCodeBtn = document.getElementById('guess-button');
 
 // DOM elements
 const newGameButton = document
@@ -21,6 +22,7 @@ socket.on('tooManyPlayers', tooManyPlayersHandler);
 
 socket.on('gameState', gameStateHandler);
 socket.on('editorInputUpdate', editorInputUpdateHandler);
+socket.on('receiveFirstPlayerSubmission', receiveFirstPlayerSubmissionHandler);
 
 // Handlers
 function newGameHandler(e) {
@@ -92,7 +94,7 @@ function setReadOnly() {
 }
 
 function editorInputChangeHandler(e) {
-  console.log(codeEditor.getValue())
+  // console.log(codeEditor.getValue())
   const editorCode = codeEditor.getValue();
   socket.emit('editorInputChange', {editorCode, roomCode})
 }
@@ -104,54 +106,90 @@ function editorInputUpdateHandler(payload) {
   }
 }
 
-let timerInterval;
+let firstTimerInterval;
 function firstPlayerTimer() {
-  let timer = 30;
+  let timer = 45;
   $('#first-player-timer').text(timer)
-  submitCodeBtn.addEventListener('click', submitCodeBtnHandler)
-  timerInterval = setInterval(() => {
+  if (playerNumber === 1) {
+    submitCodeBtn.addEventListener('click', submitCodeBtnHandler)
+  }
+  firstTimerInterval = setInterval(() => {
     timer--;
     $('#first-player-timer').text(timer);
     if (timer === 0) {
-      clearInterval(timerInterval);
-      executeCodeBtnHandler();
+      submitCodeBtnHandler();
     }
   }, 1000);
 }
 
 function submitCodeBtnHandler(e) {
-  clearInterval(timerInterval);
-  executeCodeBtnHandler();
-
-  // get input from code editor
-  let userCode = codeEditor.getValue();
-  userCode = userCode + 'console.log(add(5));console.log(add(10));'
-  
-  // run the user code
-  try {
-    new Function(userCode)();
-  } catch (e) {
-    console.error(e);
+  clearInterval(firstTimerInterval);
+  if (playerNumber === 1) {
+    executeCodeBtnHandler();
+    setReadOnly();
   }
+  // get input from code editor
+  // let editorCode = codeEditor.getValue();
 
-  verify();
-  
-  // print to our console
-  editorLib.printToConsole();
+  let editorCodeResult = consoleMessages[0]
+
+  socket.emit('firstPlayerSubmission', {editorCodeResult, roomCode});
+
+  // socket.emit
 };
 
-function verify() {
-  let output = [10, 20];
-
-  while (consoleMessages.length > output.length) {
-    consoleMessages.shift();
+let secondTimerInterval;
+function receiveFirstPlayerSubmissionHandler(payload) {
+  if (playerNumber === 2) {
+    clearInterval(firstTimerInterval);
   }
-  for (let i = 0; i < consoleMessages.length; i++) {
-    if (consoleMessages[i].message === output[i]) {
-      consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
-    } else if (consoleMessages[i].message !== output[i]) {
-      consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
-    }
+  console.log('PAYLOAAAAAAD RESULT::::::::', payload.message);
 
+  if (playerNumber === 2) {
+    guessCodeBtn.addEventListener('click', guessCodeBtnHandler)
+  }
+
+  let timer = 20;
+  $('#second-player-timer').text(timer)
+
+  secondTimerInterval = setInterval(() => {
+    timer--;
+    $('#second-player-timer').text(timer);
+    if (timer === 0) {
+      guessCodeBtnHandler();
+    }
+  }, 1000);
+
+  function guessCodeBtnHandler() {
+    clearInterval(secondTimerInterval);
+    // payload.message
+    let answer = $('#guess-input').val()
+    if (!isNaN(parseInt(answer))) {
+      answer = parseInt(answer);
+    }
+    console.log(answer);
+    console.log(typeof answer == 'number');
+    console.log('PAYLOAD', payload.message);
+
+    if (payload.message === answer) {
+      alert('sabaane5')
+    }
   }
 }
+
+
+
+// function verify() {
+//   let output = [10, 20];
+
+//   while (consoleMessages.length > output.length) {
+//     consoleMessages.shift();
+//   }
+//   for (let i = 0; i < consoleMessages.length; i++) {
+//     if (consoleMessages[i].message === output[i]) {
+//       consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
+//     } else if (consoleMessages[i].message !== output[i]) {
+//       consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
+//     }
+//   }
+// }

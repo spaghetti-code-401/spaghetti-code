@@ -108,6 +108,7 @@ main {
 #guess-input {
   background: #0b0b0b;
   border: 1px solid #10f21a;
+  padding: 3%;
 }
   #guess-input:focus {
     outline: none;
