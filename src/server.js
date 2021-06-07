@@ -71,16 +71,15 @@ app.get('/dashboard', bearer, (req ,res) => {
   res.render('dashboard', {formattedUser});
 })
 
-app.get('/admin',bearer,(req,res)=>{
-  let user = req.user;
-  let formattedUser = {
-    username: user.username,
-    score: user.score,
-    avatar_url: user.avatar_url
-  }
-
-  res.render('admin', {formattedUser});
-})
+// app.get('/admin',bearer,(req,res)=>{
+//   let user = req.user;
+//   let formattedUser = {
+//     username: user.username,
+//     score: user.score,
+//     avatar_url: user.avatar_url
+//   }
+//   req.statusCode(201).json()
+// })
  
 app.use(challengeRoute);
 // -------------SOCKET-------------
