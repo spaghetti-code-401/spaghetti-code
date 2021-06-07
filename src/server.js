@@ -8,6 +8,7 @@ const notFound = require('./error-handlers/404.js');
 
 const oauth = require('../src/middleware/oauth')
 const bearer = require('../src/middleware/bearer')
+const challengeRoute=require('./routes/challenges')
 
 const { makeId } = require('./utils/makeId')
 
@@ -70,6 +71,18 @@ app.get('/dashboard', bearer, (req ,res) => {
   res.render('dashboard', {formattedUser});
 })
 
+app.get('/admin',bearer,(req,res)=>{
+  let user = req.user;
+  let formattedUser = {
+    username: user.username,
+    score: user.score,
+    avatar_url: user.avatar_url
+  }
+
+  res.render('admin', {formattedUser});
+})
+ 
+app.use(challengeRoute);
 // -------------SOCKET-------------
 const clientRooms = {}
 
