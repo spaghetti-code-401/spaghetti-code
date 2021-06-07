@@ -81,6 +81,13 @@ app.get('/admin',bearer,(req,res)=>{
 
   res.render('admin', {formattedUser});
 })
+
+
+app.get('/log-out', (req, res) => {
+  
+  res.cookie('auth-token', '')
+  res.redirect('/')
+})
  
 app.use(challengeRoute);
 // -------------SOCKET-------------
