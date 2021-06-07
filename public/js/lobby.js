@@ -23,6 +23,7 @@ socket.on('tooManyPlayers', tooManyPlayersHandler);
 socket.on('gameState', gameStateHandler);
 socket.on('editorInputUpdate', editorInputUpdateHandler);
 socket.on('receiveFirstPlayerSubmission', receiveFirstPlayerSubmissionHandler);
+socket.on('guessInputUpdate', guessInputUpdateHandler);
 
 // Handlers
 function newGameHandler(e) {
@@ -68,15 +69,26 @@ function reset() {
 function gameStateHandler(payload) {
   showGameScreen();
 
-  console.log('playerNumber', playerNumber)
-  console.log('roomCode', roomCode)
+  console.log('playerNumber', playerNumber);
+  console.log('roomCode', roomCode);
 
-  if(playerNumber === 2) {
+  if (playerNumber === 2) {
     setReadOnly();
   }
 
   if (playerNumber === 1) {
-    $(document).on('propertychange change click keyup input paste', editorInputChangeHandler)
+    $('#guess-input').prop('readonly', true);
+    $(document).on(
+      'propertychange change click keyup input paste',
+      editorInputChangeHandler
+    );
+  }
+
+  if (playerNumber === 2) {
+    $('#guess-input').on(
+      'propertychange change click keyup input paste',
+      guessInputChangeHandler
+    );
   }
 
   firstPlayerTimer();
@@ -89,29 +101,30 @@ function showGameScreen() {
 
 function setReadOnly() {
   codeEditor.setReadOnly(true);
-  executeCodeBtn.removeEventListener('click', executeCodeBtnHandler)
-  resetCodeBtn.removeEventListener('click', resetCodeBtnHandler)
+  executeCodeBtn.removeEventListener('click', executeCodeBtnHandler);
+  resetCodeBtn.removeEventListener('click', resetCodeBtnHandler);
 }
 
 function editorInputChangeHandler(e) {
   // console.log(codeEditor.getValue())
   const editorCode = codeEditor.getValue();
-  socket.emit('editorInputChange', {editorCode, roomCode})
+  socket.emit('editorInputChange', { editorCode, roomCode });
 }
 
 function editorInputUpdateHandler(payload) {
-  console.log('EDITOR INPUT UPDATE', payload);
+  // console.log('EDITOR INPUT UPDATE', payload);
   if (playerNumber === 2) {
     codeEditor.setValue(payload);
+    codeEditor.clearSelection();
   }
 }
 
 let firstTimerInterval;
 function firstPlayerTimer() {
-  let timer = 45;
-  $('#first-player-timer').text(timer)
+  let timer = 60;
+  $('#first-player-timer').text(timer);
   if (playerNumber === 1) {
-    submitCodeBtn.addEventListener('click', submitCodeBtnHandler)
+    submitCodeBtn.addEventListener('click', submitCodeBtnHandler);
   }
   firstTimerInterval = setInterval(() => {
     timer--;
@@ -131,26 +144,47 @@ function submitCodeBtnHandler(e) {
   // get input from code editor
   // let editorCode = codeEditor.getValue();
 
-  let editorCodeResult = consoleMessages[0]
+  let editorCodeResult = consoleMessages[0];
 
-  socket.emit('firstPlayerSubmission', {editorCodeResult, roomCode});
+  socket.emit('firstPlayerSubmission', { editorCodeResult, roomCode });
 
   // socket.emit
-};
+}
 
 let secondTimerInterval;
 function receiveFirstPlayerSubmissionHandler(payload) {
   if (playerNumber === 2) {
     clearInterval(firstTimerInterval);
   }
-  console.log('PAYLOAAAAAAD RESULT::::::::', payload.message);
+
+  if (!payload.message && payload.message !== 0) {
+    return violation('falsy');
+  }
+
+  console.log('PAYLOAD', payload.message);
+  console.log('PARSED PAYLOAD', JSON.parse(payload.message));
+
+  // the following if statement to ignore strings without quotations (falsy)
+  if (
+    JSON.parse(payload.message) &&
+    typeof payload.message !== 'string' &&
+    typeof payload.message !== 'number'
+  ) {
+    payload.message = JSON.parse(payload.message);
+  }
+  if (typeof payload.message === 'boolean') return violation('boolean');
+  if (typeof payload.message === 'function') return violation('function');
+  if (typeof payload.message === 'object' && !Array.isArray(payload.message))
+    return violation('object');
+  if (typeof payload.message === 'object' && Array.isArray(payload.message))
+    return violation('array');
 
   if (playerNumber === 2) {
-    guessCodeBtn.addEventListener('click', guessCodeBtnHandler)
+    guessCodeBtn.addEventListener('click', guessCodeBtnHandler);
   }
 
   let timer = 20;
-  $('#second-player-timer').text(timer)
+  $('#second-player-timer').text(timer);
 
   secondTimerInterval = setInterval(() => {
     timer--;
@@ -163,25 +197,58 @@ function receiveFirstPlayerSubmissionHandler(payload) {
   function guessCodeBtnHandler() {
     clearInterval(secondTimerInterval);
     // payload.message
-    let answer = $('#guess-input').val()
+    let answer = $('#guess-input').val();
     if (!isNaN(parseInt(answer))) {
       answer = parseInt(answer);
     }
-    console.log(answer);
-    console.log(typeof answer == 'number');
-    console.log('PAYLOAD', payload.message);
+    console.log('ANSWER', answer);
+    // console.log(typeof answer == 'number');
 
-    if (answer[0] === `'`) {
-      answer = answer.replace(/\'/g, `"`);
+    // to fix single quotations
+    if (typeof answer !== 'number') {
+      if (answer[0] === `'` || answer.includes(`'`)) {
+        answer = answer.replace(/\'/g, `"`);
+        console.log('FIXED ANSWER', answer);
+      }
     }
 
     if (payload.message === answer) {
-      alert('sabaane5')
+      if (playerNumber === 2) {
+        alert(
+          `🟢 CORRECT 😎 ---> output: ${payload.message} === guess: ${answer}`
+        );
+      } else if (playerNumber === 1) {
+        alert(`🔴 WOOPSIE 😝 ---> they guessed it right`);
+      }
+    } else {
+      if (playerNumber === 2) {
+        alert(
+          `🔴 TSK TSK TSK 😢 ---> output: ${payload.message} !== guess: ${answer}`
+        );
+      } else if (playerNumber === 1) {
+        alert(`🟢 LET'S GOOOO 🤓 ---> you riddled them well`);
+      }
     }
   }
 }
 
+function guessInputChangeHandler(e) {
+  // console.log(codeEditor.getValue())
+  const guessCode = $('#guess-input').val();
+  socket.emit('guessInputChange', { guessCode, roomCode });
+}
 
+function guessInputUpdateHandler(payload) {
+  // console.log('EDITOR INPUT UPDATE', payload);
+  if (playerNumber === 1) {
+    console.log(payload);
+    $('#guess-input').val(payload);
+  }
+}
+
+function violation(type) {
+  alert(`first player violation ---> output: ${type}`);
+}
 
 // function verify() {
 //   let output = [10, 20];
@@ -191,9 +258,9 @@ function receiveFirstPlayerSubmissionHandler(payload) {
 //   }
 //   for (let i = 0; i < consoleMessages.length; i++) {
 //     if (consoleMessages[i].message === output[i]) {
-//       consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
+//       consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`;
 //     } else if (consoleMessages[i].message !== output[i]) {
-//       consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
+//       consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`;
 //     }
 //   }
 // }

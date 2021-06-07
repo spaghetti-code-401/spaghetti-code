@@ -31,7 +31,12 @@ let console = (function (oldConsole) {
         });
   
         // use apply to make it run multiple arguments properly
-        oldConsole.log.apply(oldConsole, args);
+        // oldConsole.log.apply(oldConsole, args);
+
+        // omit last whitespace in currentLog
+        currentLog = currentLog.split('')
+        currentLog.pop();
+        currentLog = currentLog.join('')
   
         consoleMessages.push({
           message: currentLog,
@@ -39,7 +44,7 @@ let console = (function (oldConsole) {
           class: `log log--default`
         });
   
-        oldConsole.log(consoleMessages);
+        // oldConsole.log(consoleMessages);
       },
       getType: function (arg) {
         if (typeof arg === 'string') return 'string';
@@ -51,13 +56,13 @@ let console = (function (oldConsole) {
         if (typeof arg === 'object' && Array.isArray(arg)) return 'array';
       },
       logSingleArg: function (logItem) {
-        oldConsole.log(logItem);
+        // oldConsole.log(logItem);
         consoleMessages.push({
           message: this.formArgsOutput(logItem),
           class: `log log--${this.getType(logItem)}`
         });
   
-        oldConsole.log(consoleMessages);
+        // oldConsole.log(consoleMessages);
       },
       log: function (text) {
         let argsArray = Array.from(arguments); // arguments is built in variable

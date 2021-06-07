@@ -131,6 +131,7 @@ io.on('connection', client => {
 
   client.on('editorInputChange', editorInputChangeHandler);
   client.on('firstPlayerSubmission', firstPlayerSubmissionHandler);
+  client.on('guessInputChange', guessInputChangeHandler);
 });
 
 function gameHandler(roomCode) {
@@ -146,6 +147,12 @@ function editorInputChangeHandler(payload) {
 function firstPlayerSubmissionHandler(payload) {
   io.sockets.to(payload.roomCode).emit('receiveFirstPlayerSubmission', payload.editorCodeResult);
 };
+
+function guessInputChangeHandler(payload) {
+  console.log(payload.editorCode);
+  console.log(payload.roomCode);
+  io.sockets.to(payload.roomCode).emit('guessInputUpdate', payload.guessCode)
+}
 
 
 

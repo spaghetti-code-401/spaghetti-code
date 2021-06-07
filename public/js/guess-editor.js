@@ -55,7 +55,7 @@ let editorLib = {
     // https://github.com/ajaxorg/ace/wiki/Configuring-Ace
     codeEditor.setOptions({
       fontFamily: 'Inconsolata', // or Monaco
-      fontSize: '11pt',
+      fontSize: '16px',
       //  from src-min/ext-language_tools.js
       enableBasicAutocompletion: true,
       enableLiveAutocompletion: true,
