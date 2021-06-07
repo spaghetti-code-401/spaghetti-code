@@ -171,6 +171,10 @@ function receiveFirstPlayerSubmissionHandler(payload) {
     console.log(typeof answer == 'number');
     console.log('PAYLOAD', payload.message);
 
+    if (answer[0] === `'`) {
+      answer = answer.replace(/\'/g, `"`);
+    }
+
     if (payload.message === answer) {
       alert('sabaane5')
     }
