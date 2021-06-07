@@ -2,12 +2,11 @@
 const consoleLogList = document.querySelector('.editor__console-logs');
 const executeCodeBtn = document.querySelector('.editor__run');
 const resetCodeBtn = document.querySelector('.editor__reset');
-const verifyCodeBtn = document.querySelector('.editor__verify');
 
 // Setup Ace
 // takes the id of the container
 let codeEditor = ace.edit('editorCode');
-let defaultCode = ``;
+let defaultCode = `console.log('hello')`;
 let consoleMessages = [];
 
 // Object holding editor functions
@@ -72,7 +71,8 @@ let editorLib = {
 };
 
 // Events
-executeCodeBtn.addEventListener('click', () => {
+executeCodeBtn.addEventListener('click', executeCodeBtnHandler);
+function executeCodeBtnHandler() {
   // clear console messages
   editorLib.clearConsoleScreen();
 
@@ -88,36 +88,37 @@ executeCodeBtn.addEventListener('click', () => {
   
   // print to our console
   editorLib.printToConsole();
-});
+};
 
-resetCodeBtn.addEventListener('click', () => {
+resetCodeBtn.addEventListener('click', resetCodeBtnHandler)
+function resetCodeBtnHandler() {
   // clear the Ace editor
   codeEditor.setValue('');
 
   // clear console messages
   editorLib.clearConsoleScreen();
-});
+};
 
-verifyCodeBtn.addEventListener('click', () => {
-  // clear console messages
-  editorLib.clearConsoleScreen();
+// verifyCodeBtn.addEventListener('click', () => {
+//   // clear console messages
+//   editorLib.clearConsoleScreen();
 
-  // get input from code editor
-  let userCode = codeEditor.getValue();
-  userCode = userCode + 'console.log(add(5));console.log(add(10));'
+//   // get input from code editor
+//   let userCode = codeEditor.getValue();
+//   userCode = userCode + 'console.log(add(5));console.log(add(10));'
   
-  // run the user code
-  try {
-    new Function(userCode)();
-  } catch (e) {
-    console.error(e);
-  }
+//   // run the user code
+//   try {
+//     new Function(userCode)();
+//   } catch (e) {
+//     console.error(e);
+//   }
 
-  verify();
+//   verify();
   
-  // print to our console
-  editorLib.printToConsole();
-});
+//   // print to our console
+//   editorLib.printToConsole();
+// });
 
 editorLib.init();
 

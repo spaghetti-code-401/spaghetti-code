@@ -1,6 +1,6 @@
 const socket = io('/');
 
-let playerNumber;
+let playerNumber, roomCode;
 
 // DOM elements
 const newGameButton = document
@@ -13,8 +13,9 @@ const roomCodeInput = document.getElementById('room-code-input');
 const roomCodeDisplay = document.getElementById('room-code-display');
 
 // Socket Listeners
-socket.on('init', initHandler);
-socket.on('roomCode', roomCodeHandler);
+socket.on('initPlayerNumber', initPlayerNumberHandler);
+socket.on('initRoomCode', initRoomCodeHandler);
+socket.on('displayRoomCode', displayRoomCodeHandler);
 socket.on('unknownGame', unknownGameHandler);
 socket.on('tooManyPlayers', tooManyPlayersHandler);
 
@@ -28,16 +29,20 @@ function newGameHandler(e) {
 }
 function joinGameHandler(e) {
   e.preventDefault();
-  const roomCode = roomCodeInput.value;
+  roomCode = roomCodeInput.value;
 
   socket.emit('joinGame', roomCode);
 }
 
-function initHandler(payload) {
+function initPlayerNumberHandler(payload) {
   playerNumber = payload;
 }
 
-function roomCodeHandler(roomCode) {
+function initRoomCodeHandler(payload) {
+  roomCode = payload;
+}
+
+function displayRoomCodeHandler(roomCode) {
   // roomCodeDisplay.innerText = roomCode;
   roomCodeDisplay.textContent = roomCode;
 }
@@ -58,8 +63,35 @@ function reset() {
 
 // GAME STATE HANDLER
 function gameStateHandler(payload) {
-  alert(payload.msg)
-  console.log(payload.msg)
+  showGameScreen();
+
+  console.log('playerNumber', playerNumber)
+  console.log('roomCode', roomCode)
+
+  if(playerNumber === 2) {
+    setReadOnly();
+  }
+
+  if (playerNumber === 1) {
+    $(document).on('propertychange change click keyup input paste', onchangeHandler)
+  }
 
   //// render game
+}
+
+function showGameScreen() {
+  $('#game-screen').toggleClass('game-screen-visibility');
+  $('#join-game-card').toggleClass('join-game-card-visibility');
+}
+
+function setReadOnly() {
+  codeEditor.setReadOnly(true);
+  executeCodeBtn.removeEventListener('click', executeCodeBtnHandler)
+  resetCodeBtn.removeEventListener('click', resetCodeBtnHandler)
+}
+
+function onchangeHandler(e) {
+  console.log(codeEditor.getValue())
+  const editorCode = codeEditor.getValue();
+  socket.emit('editorInputChange', {editorCode, roomCode})
 }
