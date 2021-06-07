@@ -139,7 +139,7 @@ function gameHandler(roomCode) {
 function editorInputChangeHandler(payload) {
   console.log(payload.editorCode);
   console.log(payload.roomCode);
-  io.sockets.in(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
+  io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
 }
 
 

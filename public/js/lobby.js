@@ -20,6 +20,7 @@ socket.on('unknownGame', unknownGameHandler);
 socket.on('tooManyPlayers', tooManyPlayersHandler);
 
 socket.on('gameState', gameStateHandler);
+socket.on('editorInputUpdate', editorInputUpdateHandler);
 
 // Handlers
 function newGameHandler(e) {
@@ -73,10 +74,10 @@ function gameStateHandler(payload) {
   }
 
   if (playerNumber === 1) {
-    $(document).on('propertychange change click keyup input paste', onchangeHandler)
+    $(document).on('propertychange change click keyup input paste', editorInputChangeHandler)
   }
 
-  //// render game
+  firstPlayerTimer();
 }
 
 function showGameScreen() {
@@ -90,8 +91,67 @@ function setReadOnly() {
   resetCodeBtn.removeEventListener('click', resetCodeBtnHandler)
 }
 
-function onchangeHandler(e) {
+function editorInputChangeHandler(e) {
   console.log(codeEditor.getValue())
   const editorCode = codeEditor.getValue();
   socket.emit('editorInputChange', {editorCode, roomCode})
+}
+
+function editorInputUpdateHandler(payload) {
+  console.log('EDITOR INPUT UPDATE', payload);
+  if (playerNumber === 2) {
+    codeEditor.setValue(payload);
+  }
+}
+
+let timerInterval;
+function firstPlayerTimer() {
+  let timer = 30;
+  $('#first-player-timer').text(timer)
+  submitCodeBtn.addEventListener('click', submitCodeBtnHandler)
+  timerInterval = setInterval(() => {
+    timer--;
+    $('#first-player-timer').text(timer);
+    if (timer === 0) {
+      clearInterval(timerInterval);
+      executeCodeBtnHandler();
+    }
+  }, 1000);
+}
+
+function submitCodeBtnHandler(e) {
+  clearInterval(timerInterval);
+  executeCodeBtnHandler();
+
+  // get input from code editor
+  let userCode = codeEditor.getValue();
+  userCode = userCode + 'console.log(add(5));console.log(add(10));'
+  
+  // run the user code
+  try {
+    new Function(userCode)();
+  } catch (e) {
+    console.error(e);
+  }
+
+  verify();
+  
+  // print to our console
+  editorLib.printToConsole();
+};
+
+function verify() {
+  let output = [10, 20];
+
+  while (consoleMessages.length > output.length) {
+    consoleMessages.shift();
+  }
+  for (let i = 0; i < consoleMessages.length; i++) {
+    if (consoleMessages[i].message === output[i]) {
+      consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
+    } else if (consoleMessages[i].message !== output[i]) {
+      consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
+    }
+
+  }
 }

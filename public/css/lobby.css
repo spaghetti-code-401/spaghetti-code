@@ -94,11 +94,21 @@ main {
   justify-content: space-evenly;
   height: 100%;
 }
+
 #left-aside {
   max-width: 25%;
   padding: 2%;
 }
+
 #right-aside {
   max-width: 25%;
   padding: 2%;
 }
+
+#guess-input {
+  background: #0b0b0b;
+  border: 1px solid #10f21a;
+}
+  #guess-input:focus {
+    outline: none;
+  }

@@ -2,6 +2,7 @@
 const consoleLogList = document.querySelector('.editor__console-logs');
 const executeCodeBtn = document.querySelector('.editor__run');
 const resetCodeBtn = document.querySelector('.editor__reset');
+const submitCodeBtn = document.querySelector('.editor__submit');
 
 // Setup Ace
 // takes the id of the container

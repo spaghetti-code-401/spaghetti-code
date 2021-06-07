@@ -55,10 +55,10 @@
       <section id="game-screen" class="game-screen-visibility">
         <div id="left-aside">
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam
-            temporibus dolorem officiis velit aut explicabo, illo adipisci
-            maiores quo et obcaecati dolorum odit. Consectetur dolorum
-            asperiores omnis, dolores repudiandae provident!
+            > Timer: <span id="first-player-timer"></span>
+          </p>
+          <p>
+            > Rules: Only the first console.log will be executed 
           </p>
         </div>
         <div class="editor">
@@ -74,6 +74,9 @@
                 <button class="editor__btn editor__reset box-shadow-button">
                   Reset
                 </button>
+                <button class="editor__btn editor__submit box-shadow-button">
+                  Submit >>>
+                </button>
               </div>
               <div class="editor__footer--right">
                 <div class="editor__console">
@@ -85,13 +88,13 @@
         </div>
         <div id="right-aside">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor ipsum
-            amet ratione atque nisi eos rem dicta laboriosam mollitia? Fugit
-            laudantium quia corrupti dolore omnis officia ad explicabo, culpa
-            dignissimos!
+            > Timer: <span id="second-player-timer">10</span>
+          </p>
+          <p>
+            > Guess the console output
           </p>
           <form action="">
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea id="guess-input" name="" id="" cols="20" rows="10"></textarea>
             <button type="submit">guess</button>
           </form>
         </div>
