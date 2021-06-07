@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/lobby.css" />
+    <title>Spaghetti Code</title>
+  </head>
+
+  <body>
+    <header>
+      <img
+        id="header-logo"
+        src="./assets/spaghetti-code-logo.png"
+        alt="spaghetti-code"
+      />
+      <img
+        id="header-avatar"
+        width="40px"
+        src="<%= formattedUser.avatar_url %>"
+        alt=""
+      />
+      <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
+      <p id="header-score">Score: <%= formattedUser.score %></p>
+    </header>
+
+    <main>
+      <section id="join-game-card">
+       <div id="create-game">
+           <form action="">
+               <button id="new-game-button" type="submit">Create Game</button>
+               <p id="room-code-display"></p>
+           </form>
+       </div>
+       <div id="seperator"></div>
+       <div id="join-game">
+        <form action="">
+            <button id="join-game-button" type="submit">join Game</button>
+            <input id="room-code-input" placeholder="game code" type="text" required />
+        </form>
+       </div>
+      </section>
+    </main>
+
+    <!-- required Ace libraries -->
+    <!-- <script defer src="./js/ace-editor/src-min/ace.js"></script>
+    <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
+    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script> -->
+    <!-- custom scripts -->
+    <!-- <script defer src="./js/home.js"></script>
+    <script defer src="./js/editor-console.js"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/lobby.js"></script>
+  </body>
+</html>

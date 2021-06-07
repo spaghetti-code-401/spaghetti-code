@@ -1,0 +1,75 @@
+
+#join-game-card {
+    position: fixed;
+    width: clamp(150px, 25vw, 500px);
+    height: clamp(150px, 15vw, 500px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    
+    /* background: #0B0B0B; */
+    background: rgba(0, 0, 0, 0.75);
+    border: 2px solid #10F21A;
+  
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  
+    transition:  0.1s ease;
+  }
+    #join-game-card:hover {
+      transform: translate(-49%, -51%);
+      box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A, -5px 5px #10F21A, -6px 6px #10F21A, -7px 7px #10F21A, -8px 8px #10F21A;
+  
+      transition:  0.1s ease;
+    }
+    #join-game-card div {
+        width: 45%;
+    }
+    #seperator{
+        border:1px solid #10F21A;
+        max-width: 0px;
+        height: 75%;
+    }
+    #join-game-card form{
+        /* width: 25%; */
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+    }
+    #join-game-card form input{
+        width: 75%;
+        background-color:#0B0B0B;
+        border: 1px solid #10F21A;
+        text-align: center;
+        padding: 2%;
+
+    }
+    #join-game-card form input:focus{
+        outline: none;
+    }
+    #join-game-card button {
+      width: 75%;      
+      padding: 2%;
+      color: #10F21A;
+      background: #0B0B0B;
+      border: 1px solid #10F21A;
+  
+      transition:  0.1s ease;
+    }
+    #join-game-card button:hover {
+      transform: translate(3%, -3%);
+      box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A;
+  
+      transition:  0.1s ease;
+    }
+    #join-game-card button:active {
+      transform: translate(0%, 0%);
+      box-shadow: none;
+  
+      transition:  0.1s ease;
+    }

@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
+
+/* variables */
+:root {
+  --editor-bg: #eee;
+  --editor-border: #3f87a6;
+}
+
+/* reset styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Inconsolata;
+
+  color: #10f21a;
+  text-decoration: none;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background: #0b0b0b;
+}
+
+header {
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-logo {
+  max-width: 50%;
+  max-height: 35%;
+}
+
+/* modules */
+
+.box-shadow-card {
+  transition:  0.1s ease;
+}
+  .box-shadow-card:hover {
+    transform: translate(1%, -1%);
+    box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A, -5px 5px #10F21A, -6px 6px #10F21A, -7px 7px #10F21A, -8px 8px #10F21A;
+
+    transition:  0.1s ease;
+  }
+
+  .box-shadow-button {
+    max-width: 75%;
+    text-align: center;
+    cursor: pointer;
+    
+    padding: clamp(10px, 1%, 1%);
+    color: #10F21A;
+    background: #0B0B0B;
+    border: 1px solid #10F21A;
+
+    transition:  0.1s ease;
+  }
+  .box-shadow-button:hover {
+    transform: translate(3%, -3%);
+    box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A;
+
+    transition:  0.1s ease;
+  }
+  .box-shadow-button:active {
+    transform: translate(0%, 0%);
+    box-shadow: none;
+
+    transition:  0.1s ease;
+  }
+    .box-shadow-button span {
+      font-size: 16px;
+    }

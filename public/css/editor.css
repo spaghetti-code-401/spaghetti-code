@@ -1,0 +1,128 @@
+
+/* variables */
+:root {
+  --editor-bg: #eee;
+  --editor-border: #3f87a6;
+}
+
+.editor {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor__wrapper {
+  width: 50%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  background: #0B0B0B;
+  padding: 2em;
+  border-radius: 3px;
+  border: 1px solid #10F21A;
+}
+
+.editor__body {
+  flex: 1; /* so the body can take as much space as it can*/
+}
+
+.editor__footer {
+  display: flex;
+}
+
+/* run and reset buttons */
+.editor__footer--left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* console */
+.editor__footer--right {
+  flex: 1;
+  margin-left: 10px;
+  overflow: hidden;
+}
+
+.editor__btn {
+  border: 0;
+  padding: .5em;
+  background-color: #fff;
+  border: 2px solid #333;
+  margin-top: 1em;
+  width: 100px;
+  cursor: pointer;
+}
+
+.editor__console {
+  background-color: #0b0b0b;
+  color: #10F21A;
+  width: 100%;
+  height: 130px;
+  margin-top: .9em;
+  border: 1px solid #10F21A;
+  overflow: auto;
+}
+
+/* most of the styling below is required by Ace */
+.editor__code {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 1px solid #10F21A;
+}
+
+/* Editor Console */
+.editor__console-logs {
+  padding: 10px;
+  list-style: none;
+}
+
+.editor__console-logs li pre {
+  font-size: .9em;
+  font-family: Inconsolata;
+}
+  .log {
+    padding-bottom: 3px;
+  }
+
+.ace_gutter {
+  border-left: 5px solid #10F21A;
+}
+
+/* .log--default {
+  color: saddlebrown;
+}
+.log--string {
+  color: green;
+}
+.log--number {
+  color: blue;
+}
+.log--object {
+  color: darkcyan;
+}
+.log--array {
+  color: darkblue;
+}
+.log--function {
+  color: darkgoldenrod;
+} */
+
+.log--boolean {
+  color: #16a085;
+}
+
+.log--undefined {
+  color: grey;
+}
+
+.log--error {
+  color: tomato;
+}

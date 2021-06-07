@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/editor.css">
+  <link rel="stylesheet" href="./css/home.css">
+  <title>spaghettiCode</title>
+</head>
+<body>
+  <!-- BEM methodology: Block, Element & Modifier -->
+  <header>
+    <img id="header-logo" src="./assets/spaghetti-code-logo.png" alt="spaghetti-code" />
+  </header>
+
+  <div id="oauth-card">
+    <a id="oauth-link-github" ><span class="fab fa-github"></span> Continue With GitHub</a>
+  </div>
+  
+  <div class="editor">
+    <div class="editor__wrapper">
+      <div class="editor__body">
+        <div id="editorCode" class="editor__code"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- required Ace libraries -->
+  <script defer src="./js/ace-editor/src-min/ace.js"></script>
+  <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
+  <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+  <!-- custom scripts -->
+  <script defer src="./js/home.js"></script>
+  <script defer src="./js/editor-console.js"></script>
+  <script>
+    const URL = 'https://github.com/login/oauth/authorize';
+
+    let options = {
+            client_id:'88070f9af0cd30ac368b',
+            redirect_uri : 'http://localhost:3000/oauth'
+        }
+
+        // k1=v1&k2=v2
+        let queryString = Object.keys(options).map(key=> {
+            return `${key}=` + encodeURIComponent(options[key])
+        }).join('&');
+        //URL?k1=v1&k2=v2
+        let authURI = `${URL}?${queryString}`;
+        let link = document.getElementById('oauth-link-github');
+        link.setAttribute('href', authURI);
+
+
+</script>
+
+</body>
+</html>

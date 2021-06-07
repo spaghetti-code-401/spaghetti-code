@@ -1,0 +1,113 @@
+
+/* variables */
+:root {
+  --editor-bg: #eee;
+  --editor-border: #3f87a6;
+}
+
+header {
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-logo {
+  max-width: 50%;
+  max-height: 35%;
+}
+
+#oauth-card {
+  position: fixed;
+  width: clamp(150px, 25vw, 500px);
+  height: clamp(150px, 15vw, 500px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  
+  /* background: #0B0B0B; */
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #10F21A;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition:  0.1s ease;
+}
+  #oauth-card:hover {
+    transform: translate(-49%, -51%);
+    box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A, -5px 5px #10F21A, -6px 6px #10F21A, -7px 7px #10F21A, -8px 8px #10F21A;
+
+    transition:  0.1s ease;
+  }
+  #oauth-link-github {
+    max-width: 75%;
+    text-align: center;
+    cursor: pointer;
+    
+    padding: 2%;
+    color: #10F21A;
+    background: #0B0B0B;
+    border: 1px solid #10F21A;
+
+    transition:  0.1s ease;
+  }
+  #oauth-link-github:hover {
+    transform: translate(3%, -3%);
+    box-shadow: -1px 1px #10F21A,-2px 2px #10F21A, -3px 3px #10F21A, -4px 4px #10F21A;
+
+    transition:  0.1s ease;
+  }
+  #oauth-link-github:active {
+    transform: translate(0%, 0%);
+    box-shadow: none;
+
+    transition:  0.1s ease;
+  }
+    #oauth-link-github span {
+      font-size: 16px;
+    }
+
+.editor {
+  height: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  z-index: -1;
+}
+
+.editor__wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0B0B0B;
+  padding: 2em;
+  border-radius: 3px;
+  border: 1px solid grey;
+}
+
+.editor__body {
+  flex: 1; /* so the body can take as much space as it can*/
+}
+
+/* most of the styling below is required by Ace */
+.editor__code {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 1px solid grey;
+}
+
+.ace_gutter {
+  border-left: 5px solid grey;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/dashboard.css" />
+    <title>Spaghetti Code</title>
+  </head>
+
+  <body>
+    <header>
+      <img
+        id="header-logo"
+        src="./assets/spaghetti-code-logo.png"
+        alt="spaghetti-code"
+      />
+      <img
+        id="header-avatar"
+        width="40px"
+        src="<%= formattedUser.avatar_url %>"
+        alt=""
+      />
+      <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
+      <p id="header-score">Score: <%= formattedUser.score %></p>
+    </header>
+
+    <main>
+      <section id="modes">
+        <!-- <a href="" class="box-shadow-button">
+          <div id="leader-board-btn">
+            <button>View Leader Board</button>
+          </div>
+        </a> -->
+
+        <a id="leaderboard-button" class="box-shadow-button" href="/leaderboard"><span class="fal fa-trophy"></span> Leaderboard</a>
+        
+        <a class="mode-card box-shadow-card" href="">
+          <!-- <img src="" alt="" /> -->
+          <i class="fal fa-lightbulb-exclamation"></i>
+          <p>One writes the code, the other guesses the output!</p>
+        </a>
+        
+        <a class="mode-card box-shadow-card" href="">
+          <!-- <img src="" alt="" /> -->
+          <!-- <i class="fal fa-clock"></i> -->
+          <i class="fal fa-swords"></i>
+          <p>Head to head code challenges... who's gonna finish first?</p>
+        </a>
+        
+        <a class="mode-card box-shadow-card" href="/editor">
+          <!-- <img src="" alt="" /> -->
+          <i class="fal fa-pencil"></i>
+          <p>Code editor... have fun with the console :D</p>
+        </a>
+
+      </section>
+    </main>
+
+    <!-- required Ace libraries -->
+    <!-- <script defer src="./js/ace-editor/src-min/ace.js"></script>
+    <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
+    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script> -->
+    <!-- custom scripts -->
+    <!-- <script defer src="./js/home.js"></script>
+    <script defer src="./js/editor-console.js"></script> -->
+
+    <!-- <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/dashboard.js"></script>
+  </body>
+</html>
