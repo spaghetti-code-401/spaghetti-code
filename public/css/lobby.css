@@ -96,12 +96,12 @@ main {
 }
 
 #left-aside {
-  max-width: 25%;
+  max-width: 33%;
   padding: 2%;
 }
 
 #right-aside {
-  max-width: 25%;
+  max-width: 33%;
   padding: 2%;
 }
 
@@ -109,6 +109,8 @@ main {
   background: #0b0b0b;
   border: 1px solid #10f21a;
   padding: 3%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
   #guess-input:focus {
     outline: none;

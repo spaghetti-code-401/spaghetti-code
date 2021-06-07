@@ -74,3 +74,10 @@ header {
     .box-shadow-button span {
       font-size: 16px;
     }
+
+code {
+  color: #0b0b0b;
+  background: #10f21a;
+  font-weight: 600;
+  padding: 1px;
+}
