@@ -159,6 +159,7 @@ function submitCodeBtnHandler(e) {
 
 let secondTimerInterval;
 function receiveFirstPlayerSubmissionHandler(payload) {
+  console.log('message//////////////////',JSON.parse(payload.message))
   if (playerNumber === 2) {
     clearInterval(firstTimerInterval);
   }
@@ -213,7 +214,12 @@ function guessCodeBtnHandler() {
   if (!isNaN(parseInt(answer))) {
     answer = parseInt(answer);
   }
-  console.log('ANSWER', answer);
+  if(typeof(answer)==='number'){
+    answer= answer.toString()
+  }else if (typeof(answer)==='string'){
+    answer=JSON.parse(answer)
+  }
+  console.log('ANSWER////////////////////', (answer));
   // console.log(typeof answer == 'number');
 
   // to fix single quotations
