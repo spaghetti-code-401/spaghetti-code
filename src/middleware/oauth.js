@@ -6,8 +6,7 @@ const User = require('../models/user');
 
 const SECRET = 'mysecret' || process.env.SECRET;
 const CLIENT_ID = process.env.CLIENT_ID || '88070f9af0cd30ac368b';
-const CLIENT_SECRET = process.env.ClIENT_SECRET ||
-  '55e61054b00e7b4d8251ed4107816c9ca652cfbb';
+const CLIENT_SECRET = process.env.CLIENT_SECRET || '55e61054b00e7b4d8251ed4107816c9ca652cfbb';
 
 const tokenUrl = 'https://github.com/login/oauth/access_token';
 const userUrl = 'https://api.github.com/user';
