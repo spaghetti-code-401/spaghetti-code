@@ -82,6 +82,11 @@ app.get('/dashboard', bearer, (req ,res) => {
 //   }
 //   req.statusCode(201).json()
 // })
+
+app.get('/logout',(req,res)=>{
+  res.cookie("auth-token","")
+  res.redirect('/')
+})
  
 app.use(challengeRoute);
 app.use(leaderboardRoute);
