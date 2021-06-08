@@ -43,6 +43,8 @@
     <script>
       const URL = 'https://github.com/login/oauth/authorize';
 
+      console.log('window.location.href ->', window.location.href);
+
       let CLIENT_ID, REDIRECT_URI;
       if (window.location.href === 'https://spaghetti-code.herokuapp.com/') {
         CLIENT_ID = '200663f08142d8cca249';
