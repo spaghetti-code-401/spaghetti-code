@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/editor.css" />
     <link rel="stylesheet" href="./css/lobby.css" />
     <title>Spaghetti Code</title>
   </head>
@@ -23,36 +24,124 @@
         src="<%= formattedUser.avatar_url %>"
         alt=""
       />
-      <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
+      <a href="/dashboard" id="header-username"
+        ><%= formattedUser.username %></a
+      >
       <p id="header-score">Score: <%= formattedUser.score %></p>
+      <a href="/logout" id="header-logout">Logout</a>
+
     </header>
 
     <main>
       <section id="join-game-card">
-       <div id="create-game">
-           <form action="">
-               <button id="new-game-button" type="submit">Create Game</button>
-               <p id="room-code-display"></p>
-           </form>
-       </div>
-       <div id="seperator"></div>
-       <div id="join-game">
-        <form action="">
+        <div id="create-game">
+          <form action="">
+            <button id="new-game-button" type="submit">Create Game</button>
+            <p id="room-code-display"></p>
+          </form>
+        </div>
+        <div id="separator"></div>
+        <div id="join-game">
+          <form action="">
             <button id="join-game-button" type="submit">join Game</button>
-            <input id="room-code-input" placeholder="game code" type="text" required />
-        </form>
-       </div>
+            <input
+              id="room-code-input"
+              placeholder="game code"
+              type="text"
+              required
+            />
+          </form>
+        </div>
+      </section>
+
+      <section id="game-screen" class="game-screen-visibility">
+        <div id="left-aside">
+          <p>
+            > Timer: <span id="first-player-timer"></span>
+          </p>
+          <p>
+            >
+          </p>
+          <p>
+            > Rules: 
+          </p>
+          <p>
+            > 1. Only the first <code>console.log</code> will be used 
+          </p>
+          <p>
+            > 2. And, only the first argument of <code>console.log</code> will be tested 
+          </p>
+          <p>
+            > 3. Don't use <code>Math.random()</code> or karma might bite you back 👊 
+          </p>
+          <p>
+            > 4. Output must be a <code>string</code> or a <code>number</code> only! 
+          </p>
+        </div>
+        <div class="editor">
+          <div class="editor__wrapper">
+            <div class="editor__body">
+              <div id="editorCode" class="editor__code"></div>
+            </div>
+            <div class="editor__footer">
+              <div class="editor__footer--left">
+                <button class="editor__btn editor__run box-shadow-button">
+                  Run >
+                </button>
+                <button class="editor__btn editor__reset box-shadow-button">
+                  Reset
+                </button>
+                <button class="editor__btn editor__submit box-shadow-button">
+                  Submit >>>
+                </button>
+              </div>
+              <div class="editor__footer--right">
+                <div class="editor__console">
+                  <ul class="editor__console-logs"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="right-aside">
+          <p>
+            > Timer: <span id="second-player-timer">20</span>
+          </p>
+          <p>
+            >
+          </p>
+          <p>
+            > Rules:
+          </p>
+          <p>
+            > 1. Guess the console output
+          </p>
+          <p>
+            > 2. If you think it's a string, don't forget the cute little quotations 😉
+          </p>
+          <p>
+            >
+          </p>
+          <div>
+            <input id="guess-input" placeholder="guess here"/>
+            <button id="guess-button" class="box-shadow-button">guess</button>
+          </div>
+        </div>
       </section>
     </main>
 
-    <!-- required Ace libraries -->
-    <!-- <script defer src="./js/ace-editor/src-min/ace.js"></script>
-    <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
-    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script> -->
-    <!-- custom scripts -->
-    <!-- <script defer src="./js/home.js"></script>
-    <script defer src="./js/editor-console.js"></script> -->
+    <!-- SOCKET -->
     <script src="/socket.io/socket.io.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- required Ace libraries -->
+    <script src="./js/ace-editor/src-min/ace.js"></script>
+    <script src="./js/ace-editor/src-min/mode-javascript.js"></script>
+    <script src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+    <!-- custom scripts for editor -->
+    <script src="./js/guess-editor.js"></script>
+    <script src="./js/guess-editor-console.js"></script>
+    <!-- game logic -->
     <script src="./js/lobby.js"></script>
   </body>
 </html>

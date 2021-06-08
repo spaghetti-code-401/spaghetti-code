@@ -10,11 +10,12 @@ const userSchema = {
     token: { type: String, required: true },
     avatar_url: { type: String},
     bio: { type: String},
-    score: { type: Number, default: 0 }
+    score: { type: Number, default: 0 },
+    role: { type: String, default:'user',required:true,enum:['user','admin']}
 };
 const users = new mongoose.Schema(userSchema);
 
-
+////BEARER\\\\\
 users.statics.authenticateWithToken = async function (token) {
     try {
         let parsedToken = jwt.verify(token, SECRET);
@@ -30,6 +31,15 @@ users.statics.authenticateWithToken = async function (token) {
       throw new Error(e.message)
     }
 }
+
+////ACL\\\\\
+users.virtual('capabilities').get(function(){
+    let acl={
+      user:['read'],
+      admin:['read','create','update','delete']
+    }
+    return acl[this.role];
+})
   
 const User = mongoose.model('userCode', users )
 

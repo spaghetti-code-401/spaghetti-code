@@ -26,7 +26,8 @@
       />
       <a href="/dashboard" id="header-username"><%= formattedUser.username %></a>
       <p id="header-score">Score: <%= formattedUser.score %></p>
-      <a id="header-logout" href="/log-out">logout</a>
+      <a href="/logout" id="header-logout">Logout</a>
+
     </header>
 
     <main>
@@ -39,7 +40,7 @@
 
         <a id="leaderboard-button" class="box-shadow-button" href="/leaderboard"><span class="fal fa-trophy"></span> Leaderboard</a>
         
-        <a class="mode-card box-shadow-card" href="">
+        <a class="mode-card box-shadow-card" href="/lobby">
           <!-- <img src="" alt="" /> -->
           <i class="fal fa-lightbulb-exclamation"></i>
           <p>One writes the code, the other guesses the output!</p>

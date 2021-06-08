@@ -8,8 +8,8 @@ const challengesSchema = {
     output: { type: Array},
     difficulty: { type: String }
 };
-
-const Challenge = mongoose.model('challenges', challengesSchema )
+const schema=mongoose.Schema(challengesSchema)
+const Challenge = mongoose.model('challenges', schema )
 
 
 

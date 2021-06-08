@@ -32,9 +32,7 @@ header {
   font-size: clamp(1rem, -0.875rem + 2vw, 3.5rem);
 }
 
-#header-logout {
+#header-logout{
   grid-area: 1 / 7;
   font-size: clamp(1rem, -0.875rem + 2vw, 3.5rem);
   margin-right: 35px;
-  
-}
