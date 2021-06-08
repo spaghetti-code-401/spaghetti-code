@@ -203,7 +203,7 @@ async function winnerHandler(payload) {
     console.log('LOSER USER --->', user)
   }
 
-  io.sockets.to(payload.roomCode).emit('rematch', payload);
+  io.sockets.broadcast.to(payload.roomCode).emit('rematch', payload);
 }
 
 
