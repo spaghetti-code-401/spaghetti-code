@@ -1,6 +1,7 @@
 const socket = io('/');
 
-let playerNumber;
+let playerNumber, roomCode;
+const guessCodeBtn = document.getElementById('guess-button');
 
 // DOM elements
 const newGameButton = document
@@ -13,12 +14,16 @@ const roomCodeInput = document.getElementById('room-code-input');
 const roomCodeDisplay = document.getElementById('room-code-display');
 
 // Socket Listeners
-socket.on('init', initHandler);
-socket.on('roomCode', roomCodeHandler);
+socket.on('initPlayerNumber', initPlayerNumberHandler);
+socket.on('initRoomCode', initRoomCodeHandler);
+socket.on('displayRoomCode', displayRoomCodeHandler);
 socket.on('unknownGame', unknownGameHandler);
 socket.on('tooManyPlayers', tooManyPlayersHandler);
 
 socket.on('gameState', gameStateHandler);
+socket.on('editorInputUpdate', editorInputUpdateHandler);
+socket.on('receiveFirstPlayerSubmission', receiveFirstPlayerSubmissionHandler);
+socket.on('guessInputUpdate', guessInputUpdateHandler);
 
 // Handlers
 function newGameHandler(e) {
@@ -28,16 +33,20 @@ function newGameHandler(e) {
 }
 function joinGameHandler(e) {
   e.preventDefault();
-  const roomCode = roomCodeInput.value;
+  roomCode = roomCodeInput.value;
 
   socket.emit('joinGame', roomCode);
 }
 
-function initHandler(payload) {
+function initPlayerNumberHandler(payload) {
   playerNumber = payload;
 }
 
-function roomCodeHandler(roomCode) {
+function initRoomCodeHandler(payload) {
+  roomCode = payload;
+}
+
+function displayRoomCodeHandler(roomCode) {
   // roomCodeDisplay.innerText = roomCode;
   roomCodeDisplay.textContent = roomCode;
 }
@@ -58,8 +67,189 @@ function reset() {
 
 // GAME STATE HANDLER
 function gameStateHandler(payload) {
-  alert(payload.msg)
-  console.log(payload.msg)
+  showGameScreen();
 
-  //// render game
+  console.log('playerNumber', playerNumber);
+  console.log('roomCode', roomCode);
+
+  if (playerNumber === 2) {
+    setReadOnly();
+  }
+
+  if (playerNumber === 1) {
+    $('#guess-input').prop('readonly', true);
+    $(document).on(
+      'propertychange change click keyup input paste',
+      editorInputChangeHandler
+    );
+  }
+
+  if (playerNumber === 2) {
+    $('#guess-input').on(
+      'propertychange change click keyup input paste',
+      guessInputChangeHandler
+    );
+  }
+
+  firstPlayerTimer();
 }
+
+function showGameScreen() {
+  $('#game-screen').toggleClass('game-screen-visibility');
+  $('#join-game-card').toggleClass('join-game-card-visibility');
+}
+
+function setReadOnly() {
+  codeEditor.setReadOnly(true);
+  executeCodeBtn.removeEventListener('click', executeCodeBtnHandler);
+  resetCodeBtn.removeEventListener('click', resetCodeBtnHandler);
+}
+
+function editorInputChangeHandler(e) {
+  // console.log(codeEditor.getValue())
+  const editorCode = codeEditor.getValue();
+  socket.emit('editorInputChange', { editorCode, roomCode });
+}
+
+function editorInputUpdateHandler(payload) {
+  // console.log('EDITOR INPUT UPDATE', payload);
+  if (playerNumber === 2) {
+    codeEditor.setValue(payload);
+    codeEditor.clearSelection();
+  }
+}
+
+let firstTimerInterval;
+function firstPlayerTimer() {
+  let timer = 60;
+  $('#first-player-timer').text(timer);
+  if (playerNumber === 1) {
+    submitCodeBtn.addEventListener('click', submitCodeBtnHandler);
+  }
+  firstTimerInterval = setInterval(() => {
+    timer--;
+    $('#first-player-timer').text(timer);
+    if (timer === 0) {
+      submitCodeBtnHandler();
+    }
+  }, 1000);
+}
+
+function submitCodeBtnHandler(e) {
+  clearInterval(firstTimerInterval);
+  if (playerNumber === 1) {
+    executeCodeBtnHandler();
+    setReadOnly();
+  }
+  // get input from code editor
+  // let editorCode = codeEditor.getValue();
+
+  let editorCodeResult = consoleMessages[0];
+
+  socket.emit('firstPlayerSubmission', { editorCodeResult, roomCode });
+
+  // socket.emit
+}
+
+let secondTimerInterval;
+function receiveFirstPlayerSubmissionHandler(payload) {
+  if (playerNumber === 2) {
+    clearInterval(firstTimerInterval);
+  }
+
+  // payload.message = payload.message.split(' ')[0]
+
+  if (!payload.message && payload.message !== 0) {
+    return violation('falsy');
+  }
+
+  // console.log('PAYLOAD', payload.message);
+  console.log('PARSED PAYLOAD', JSON.parse(payload.message));
+
+  // the following if statement to ignore strings without quotations (falsy)
+  let parsedPayload;
+  if (
+    JSON.parse(payload.message)
+    // typeof payload.message !== 'string' &&
+    // typeof payload.message !== 'number'
+  ) {
+    parsedPayload = JSON.parse(payload.message);
+  }
+  if (typeof parsedPayload === 'boolean') return violation('boolean');
+  if (typeof parsedPayload === 'function') return violation('function');
+  if (typeof parsedPayload === 'object' && !Array.isArray(parsedPayload))
+    return violation('object');
+  if (typeof parsedPayload === 'object' && Array.isArray(parsedPayload))
+    return violation('array');
+
+  if (playerNumber === 2) {
+    guessCodeBtn.addEventListener('click', guessCodeBtnHandler);
+  }
+
+  let timer = 20;
+  $('#second-player-timer').text(timer);
+
+  secondTimerInterval = setInterval(() => {
+    timer--;
+    $('#second-player-timer').text(timer);
+    if (timer === 0) {
+      guessCodeBtnHandler();
+    }
+  }, 1000);
+
+  function guessCodeBtnHandler() {
+    clearInterval(secondTimerInterval);
+    // payload.message
+    let answer = $('#guess-input').val();
+    if (!isNaN(parseInt(answer))) {
+      answer = parseInt(answer);
+    }
+    console.log('ANSWER', answer);
+    // console.log(typeof answer == 'number');
+
+    // to fix single quotations
+    if (typeof answer !== 'number') {
+      if (answer[0] === `'` || answer.includes(`'`)) {
+        answer = answer.replace(/\'/g, `"`);
+        console.log('FIXED ANSWER', answer);
+      }
+    }
+
+    if (payload.message === answer) {
+      if (playerNumber === 2) {
+        alert(
+          `🟢 CORRECT 😎 ---> output: ${payload.message} === guess: ${answer}`
+        );
+      } else if (playerNumber === 1) {
+        alert(`🔴 WOOPSIE 😝 ---> they guessed it right`);
+      }
+    } else {
+      if (playerNumber === 2) {
+        alert(
+          `🔴 TSK TSK TSK 😢 ---> output: ${payload.message} !== guess: ${answer}`
+        );
+      } else if (playerNumber === 1) {
+        alert(`🟢 LET'S GOOOO 🤓 ---> you riddled them well`);
+      }
+    }
+  }
+}
+
+function guessInputChangeHandler(e) {
+  // console.log(codeEditor.getValue())
+  const guessCode = $('#guess-input').val();
+  socket.emit('guessInputChange', { guessCode, roomCode });
+}
+
+function guessInputUpdateHandler(payload) {
+  // console.log('EDITOR INPUT UPDATE', payload);
+  if (playerNumber === 1) {
+    console.log(payload);
+    $('#guess-input').val(payload);
+  }
+}
+
+function violation(type) {
+  alert(`first player violation ---> output: ${type}`);
+}
+

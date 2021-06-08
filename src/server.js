@@ -97,7 +97,7 @@ io.on('connection', client => {
     const roomCode = makeId(5);
     clientRooms[client.id] = roomCode;
 
-    client.emit('roomCode', roomCode);
+    client.emit('displayRoomCode', roomCode);
 
     // state[roomCode] = initGame()
 
@@ -108,7 +108,8 @@ io.on('connection', client => {
     console.log('AFTER first player joined game', room)
 
     client.number = 1;
-    client.emit('init', 1)
+    client.emit('initPlayerNumber', 1)
+    client.emit('initRoomCode', roomCode)
   }
 
   client.on('joinGame', joinGameHandler);
@@ -118,11 +119,10 @@ io.on('connection', client => {
     // console.log('room', room);
     // console.log('roomCode', roomCode);
 
-
     let players;
     if (room) players = room.size; // similar to array.length
 
-    if (players === 0) {
+    if (players === 0 || !players) {
       client.emit('unknownGame');
       return;
     } else if (players > 1) {
@@ -135,14 +135,35 @@ io.on('connection', client => {
     client.join(roomCode);
     // console.log('AFTER player 2', room.size)
     client.number = 2;
-    client.emit('init', 2);
+    client.emit('initPlayerNumber', 2);
+    client.emit('initRoomCode', roomCode);
 
     gameHandler(roomCode);
   }
+
+  client.on('editorInputChange', editorInputChangeHandler);
+  client.on('firstPlayerSubmission', firstPlayerSubmissionHandler);
+  client.on('guessInputChange', guessInputChangeHandler);
 });
 
 function gameHandler(roomCode) {
   io.sockets.in(roomCode).emit('gameState', { msg: 'game Started!!' })
+}
+
+function editorInputChangeHandler(payload) {
+  console.log(payload.editorCode);
+  console.log(payload.roomCode);
+  io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
+}
+
+function firstPlayerSubmissionHandler(payload) {
+  io.sockets.to(payload.roomCode).emit('receiveFirstPlayerSubmission', payload.editorCodeResult);
+};
+
+function guessInputChangeHandler(payload) {
+  console.log(payload.editorCode);
+  console.log(payload.roomCode);
+  io.sockets.to(payload.roomCode).emit('guessInputUpdate', payload.guessCode)
 }
 
 
