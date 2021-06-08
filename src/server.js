@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 
+var cookieParser = require('cookie-parser')
+
 const errorHandler = require('./error-handlers/500.js');
 const notFound = require('./error-handlers/404.js');
 
@@ -12,8 +14,10 @@ const challengeRoute=require('./routes/challenges')
 const leaderboardRoute=require('./routes/leaderboard')
 const randomRoute=require('./routes/getRandom')
 
-const { makeId } = require('./utils/makeId')
+const { makeId } = require('./utils/makeId');
+const { access } = require('fs');
 
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,6 +33,7 @@ app.get('/',(req,res)=>{
 })
 app.get('/oauth', oauth, (req, res) => {
   res.cookie('auth-token', req.token)
+  res.cookie('sign', 'enter your name')
   res.redirect('/dashboard')
 })
 app.get('/guess', bearer,(req,res)=>{
