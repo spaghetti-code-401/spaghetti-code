@@ -152,6 +152,42 @@ io.on('connection', client => {
   client.on('guessInputChange', guessInputChangeHandler);
   client.on('secondPlayerSubmission', secondPlayerSubmissionHandler);
   client.on('winner', winnerHandler);
+
+  // we kept it here to access the client object
+  // to send the rematch event to the client alone
+  // because sending it back to the whole room will cause
+  // duplication in the event
+  async function winnerHandler(payload) {
+    // payload.winner
+    // payload.playerNumber
+    // payload.username
+    console.log('MONGOOSE --------------', payload);
+  
+    if (payload.winner === payload.playerNumber) {
+      // WINNER -> increase username score
+      let user = await userModel.findOneAndUpdate({
+        username: payload.username
+      }, {$inc: {score: 50}}, {
+        new: true
+      });
+      console.log('WINNER USER --->', user)
+    }
+    if (payload.winner !== payload.playerNumber) {
+      // LOSER -> decrease username score
+      let user = await userModel.findOneAndUpdate({
+        username: payload.username
+      }, {$inc: {score: -25}}, {
+        new: true
+      });
+      console.log('LOSER USER --->', user)
+    }
+    
+    // this will emit rematch twice for each user, unwanted behavior
+    // io.sockets.broadcast.to(payload.roomCode).emit('rematch', payload);
+
+    // this will emit rematch once 
+    client.emit('rematch', payload);
+  }
 });
 
 function gameHandler(roomCode) {
@@ -178,33 +214,7 @@ function secondPlayerSubmissionHandler(payload) {
   io.sockets.to(payload.roomCode).emit('receiveSecondPlayerSubmission', payload);
 };
 
-async function winnerHandler(payload) {
-  // payload.winner
-  // payload.playerNumber
-  // payload.username
-  console.log('MONGOOSE --------------', payload);
 
-  if (payload.winner === payload.playerNumber) {
-    // WINNER -> increase username score
-    let user = await userModel.findOneAndUpdate({
-      username: payload.username
-    }, {$inc: {score: 50}}, {
-      new: true
-    });
-    console.log('WINNER USER --->', user)
-  }
-  if (payload.winner !== payload.playerNumber) {
-    // LOSER -> decrease username score
-    let user = await userModel.findOneAndUpdate({
-      username: payload.username
-    }, {$inc: {score: -25}}, {
-      new: true
-    });
-    console.log('LOSER USER --->', user)
-  }
-
-  io.sockets.broadcast.to(payload.roomCode).emit('rematch', payload);
-}
 
 
 
