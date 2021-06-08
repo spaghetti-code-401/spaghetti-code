@@ -92,6 +92,13 @@ app.get('/logout',(req,res)=>{
   res.cookie("auth-token","")
   res.redirect('/')
 })
+
+
+app.get('/log-out', (req, res) => {
+  
+  res.cookie('auth-token', '')
+  res.redirect('/')
+})
  
 app.use(challengeRoute);
 app.use(leaderboardRoute);
