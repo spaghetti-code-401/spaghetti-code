@@ -10,14 +10,14 @@ module.exports= async (req,res,next)=>{
     console.log('///////////////////////',req.headers.cookie)
     let token;
     try {
-        if( /\=/.test( req.headers.cookie)) {
+        if( /\=/.test( req.headers.cookie)&& !(/\;/.test(req.headers.cookie))) {
             token = req.headers.cookie.split('=')[1]
             console.log('first if',token)
             
         } else if(/\;/.test(req.headers.cookie)) {
-            console.log('second if',token)
-            const preToken = req.headers.cookie.split(';')[1]
+            const preToken = req.headers.cookie.split(';')[0]
             token = preToken.split('=')[1]
+            console.log('second if',token)
             
         } else {
             console.log('third if',token)
