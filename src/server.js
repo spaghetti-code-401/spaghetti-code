@@ -10,6 +10,7 @@ const notFound = require('./error-handlers/404.js');
 
 const oauth = require('../src/middleware/oauth')
 const bearer = require('../src/middleware/bearer')
+const homeBearer = require('../src/middleware/home-bearer')
 const challengeRoute=require('./routes/challenges')
 const leaderboardRoute=require('./routes/leaderboard')
 const randomRoute=require('./routes/getRandom')
@@ -32,7 +33,7 @@ app.use(express.static('public'));
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-app.get('/', (req,res)=>{
+app.get('/', homeBearer, (req,res)=>{
  res.render('home')
 })
 app.get('/oauth', oauth, (req, res) => {
