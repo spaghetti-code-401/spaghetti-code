@@ -157,26 +157,29 @@ function receiveFirstPlayerSubmissionHandler(payload) {
     clearInterval(firstTimerInterval);
   }
 
+  // payload.message = payload.message.split(' ')[0]
+
   if (!payload.message && payload.message !== 0) {
     return violation('falsy');
   }
 
-  console.log('PAYLOAD', payload.message);
+  // console.log('PAYLOAD', payload.message);
   console.log('PARSED PAYLOAD', JSON.parse(payload.message));
 
   // the following if statement to ignore strings without quotations (falsy)
+  let parsedPayload;
   if (
-    JSON.parse(payload.message) &&
-    typeof payload.message !== 'string' &&
-    typeof payload.message !== 'number'
+    JSON.parse(payload.message)
+    // typeof payload.message !== 'string' &&
+    // typeof payload.message !== 'number'
   ) {
-    payload.message = JSON.parse(payload.message);
+    parsedPayload = JSON.parse(payload.message);
   }
-  if (typeof payload.message === 'boolean') return violation('boolean');
-  if (typeof payload.message === 'function') return violation('function');
-  if (typeof payload.message === 'object' && !Array.isArray(payload.message))
+  if (typeof parsedPayload === 'boolean') return violation('boolean');
+  if (typeof parsedPayload === 'function') return violation('function');
+  if (typeof parsedPayload === 'object' && !Array.isArray(parsedPayload))
     return violation('object');
-  if (typeof payload.message === 'object' && Array.isArray(payload.message))
+  if (typeof parsedPayload === 'object' && Array.isArray(parsedPayload))
     return violation('array');
 
   if (playerNumber === 2) {
@@ -250,17 +253,3 @@ function violation(type) {
   alert(`first player violation ---> output: ${type}`);
 }
 
-// function verify() {
-//   let output = [10, 20];
-
-//   while (consoleMessages.length > output.length) {
-//     consoleMessages.shift();
-//   }
-//   for (let i = 0; i < consoleMessages.length; i++) {
-//     if (consoleMessages[i].message === output[i]) {
-//       consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`;
-//     } else if (consoleMessages[i].message !== output[i]) {
-//       consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`;
-//     }
-//   }
-// }

@@ -37,9 +37,12 @@ let console = (function (oldConsole) {
         currentLog = currentLog.split('')
         currentLog.pop();
         currentLog = currentLog.join('')
+
+        // we are editing this function to only take the first argument (for parsing purposes)
+        // instead of message: currentLog, we will send message: args[0]
   
         consoleMessages.push({
-          message: currentLog,
+          message: this.formArgsOutput(args[0]),
           // type is default because it's a big string with different arguments
           class: `log log--default`
         });
