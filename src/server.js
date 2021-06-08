@@ -32,7 +32,7 @@ app.use(express.static('public'));
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
-app.get('/',(req,res)=>{
+app.get('/', (req,res)=>{
  res.render('home')
 })
 app.get('/oauth', oauth, (req, res) => {
@@ -202,7 +202,8 @@ io.on('connection', client => {
       console.log('LOSER USER --->', user)
     }
 
-    let score = await userModel.find({username: payload.username}).score;
+    let user = await userModel.findOne({username: payload.username});
+    let score = user.score;
     
     // this will emit rematch twice for each user, unwanted behavior
     // io.sockets.broadcast.to(payload.roomCode).emit('rematch', payload);

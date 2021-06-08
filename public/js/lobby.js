@@ -277,12 +277,15 @@ function violation(type) {
 
 function rematchHandler(score) {
   // showGameScreen();
+  console.log(score)
 
   // set new score
-  $('#header-score').text(score)
+  $('#header-score').text(`Score: ${score}`)
 
+  // erasing previous values
   $('#guess-input').val('');
-  codeEditor.setValue('');
+  codeEditor.setValue(defaultCode);
+  // $('.editor__console').text('')
 
   if (playerNumber === 1) {
     playerNumber = 2;
