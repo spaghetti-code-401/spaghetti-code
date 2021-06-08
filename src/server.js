@@ -13,6 +13,7 @@ const bearer = require('../src/middleware/bearer')
 const challengeRoute=require('./routes/challenges')
 const leaderboardRoute=require('./routes/leaderboard')
 const randomRoute=require('./routes/getRandom')
+const userRoute=require('./routes/users')
 
 const { makeId } = require('./utils/makeId');
 const { access } = require('fs');
@@ -103,6 +104,7 @@ app.get('/log-out', (req, res) => {
 app.use(challengeRoute);
 app.use(leaderboardRoute);
 app.use(randomRoute);
+app.use(userRoute)
 // -------------SOCKET-------------
 const clientRooms = {}
 
