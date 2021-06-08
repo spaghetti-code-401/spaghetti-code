@@ -3,6 +3,8 @@
 const express = require('express');
 const app = express();
 
+var cookieParser = require('cookie-parser')
+
 const errorHandler = require('./error-handlers/500.js');
 const notFound = require('./error-handlers/404.js');
 
@@ -11,11 +13,15 @@ const bearer = require('../src/middleware/bearer')
 const challengeRoute=require('./routes/challenges')
 const leaderboardRoute=require('./routes/leaderboard')
 const randomRoute=require('./routes/getRandom')
+const userRoute=require('./routes/users')
+
 
 const userModel = require('./models/user')
 
 const { makeId } = require('./utils/makeId')
 
+
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -31,6 +37,7 @@ app.get('/',(req,res)=>{
 })
 app.get('/oauth', oauth, (req, res) => {
   res.cookie('auth-token', req.token)
+  res.cookie('sign', 'enter your name')
   res.redirect('/dashboard')
 })
 app.get('/guess', bearer,(req,res)=>{
@@ -84,10 +91,23 @@ app.get('/dashboard', bearer, (req ,res) => {
 //   }
 //   req.statusCode(201).json()
 // })
+
+app.get('/logout',(req,res)=>{
+  res.cookie("auth-token","")
+  res.redirect('/')
+})
+
+
+app.get('/log-out', (req, res) => {
+  
+  res.cookie('auth-token', '')
+  res.redirect('/')
+})
  
 app.use(challengeRoute);
 app.use(leaderboardRoute);
 app.use(randomRoute);
+app.use(userRoute)
 // -------------SOCKET-------------
 const clientRooms = {}
 
