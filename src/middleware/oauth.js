@@ -17,9 +17,10 @@ module.exports = async (req, res, next) => {
     const code = req.query.code;
 
     const token = await exchangeCodeWithToken(code);
+    console.log('TOKEN', token)
 
     let remoteUser = await exchangeTokenWithUserInfo(token);
-    console.log(remoteUser)
+    console.log('REMOTE USER', remoteUser)
 
     let [localUser, localToken] = await getLocalUser(remoteUser);
     req.user = localUser;
@@ -50,7 +51,7 @@ async function exchangeTokenWithUserInfo(token) {
       Authorization: `token ${token}`,
       'User-Agent': 'spaghettiCode'
     });
-    // console.log('user ===>', userInfo.body);
+    console.log('user ===>', userInfo.body);
     return userInfo.body;
   } catch (e) {
     console.log(e.message);
