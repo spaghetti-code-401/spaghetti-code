@@ -15,6 +15,7 @@ const userUrl = 'https://api.github.com/user';
 module.exports = async (req, res, next) => {
   try {
     const code = req.query.code;
+    console.log('CODE', code)
 
     const token = await exchangeCodeWithToken(code);
     console.log('TOKEN', token)
@@ -33,12 +34,15 @@ module.exports = async (req, res, next) => {
 };
 
 async function exchangeCodeWithToken(code) {
+  console.log('CLIENT_ID', CLIENT_ID)
+  console.log('CLIENT_SECRET', CLIENT_SECRET)
   try {
     const tokenRes = await superagent.post(tokenUrl).send({
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
       code: code
     });
+    console.log('tokenRes', tokenRes.body);
     return tokenRes.body.access_token;
   } catch (e) {
     console.log(e.message);
