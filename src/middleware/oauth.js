@@ -19,6 +19,7 @@ module.exports = async (req, res, next) => {
     const token = await exchangeCodeWithToken(code);
 
     let remoteUser = await exchangeTokenWithUserInfo(token);
+    console.log(remoteUser)
 
     let [localUser, localToken] = await getLocalUser(remoteUser);
     req.user = localUser;
