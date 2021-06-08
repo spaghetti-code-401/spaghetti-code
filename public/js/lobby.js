@@ -24,6 +24,10 @@ socket.on('gameState', gameStateHandler);
 socket.on('editorInputUpdate', editorInputUpdateHandler);
 socket.on('receiveFirstPlayerSubmission', receiveFirstPlayerSubmissionHandler);
 socket.on('guessInputUpdate', guessInputUpdateHandler);
+socket.on('receiveSecondPlayerSubmission', receiveSecondPlayerSubmissionHandler);
+
+// TODO
+// socket.on('rematch')
 
 // Handlers
 function newGameHandler(e) {
@@ -147,8 +151,6 @@ function submitCodeBtnHandler(e) {
   let editorCodeResult = consoleMessages[0];
 
   socket.emit('firstPlayerSubmission', { editorCodeResult, roomCode });
-
-  // socket.emit
 }
 
 let secondTimerInterval;
@@ -215,25 +217,38 @@ function receiveFirstPlayerSubmissionHandler(payload) {
       }
     }
 
-    if (payload.message === answer) {
-      if (playerNumber === 2) {
-        alert(
-          `🟢 CORRECT 😎 ---> output: ${payload.message} === guess: ${answer}`
-        );
-      } else if (playerNumber === 1) {
-        alert(`🔴 WOOPSIE 😝 ---> they guessed it right`);
-      }
-    } else {
-      if (playerNumber === 2) {
-        alert(
-          `🔴 TSK TSK TSK 😢 ---> output: ${payload.message} !== guess: ${answer}`
-        );
-      } else if (playerNumber === 1) {
-        alert(`🟢 LET'S GOOOO 🤓 ---> you riddled them well`);
-      }
+    socket.emit('secondPlayerSubmission', { editorCodeResult: payload.message, answer, roomCode });
+  }
+}
+
+function receiveSecondPlayerSubmissionHandler(payload) {
+  if (playerNumber === 1) {
+    clearInterval(secondTimerInterval);
+  }
+
+  console.log('FINAL PAYLOAAAAAD', payload)
+  
+  if (payload.editorCodeResult === payload.answer) {
+    socket.emit('winner', { winner: 2, playerNumber, username: $('#header-username').text()})
+    if (playerNumber === 2) {
+      alert(
+        `🟢 CORRECT 😎 ---> output: ${payload.editorCodeResult} === guess: ${payload.answer}`
+      );
+    } else if (playerNumber === 1) {
+      alert(`🔴 WOOPSIE 😝 ---> they guessed it right`);
+    }
+  } else {
+    socket.emit('winner', { winner: 1, playerNumber, username: $('#header-username').text()})
+    if (playerNumber === 2) {
+      alert(
+        `🔴 TSK TSK TSK 😢 ---> output: ${payload.editorCodeResult} !== guess: ${payload.answer}`
+      );
+    } else if (playerNumber === 1) {
+      alert(`🟢 LET'S GOOOO 🤓 ---> you riddled them well`);
     }
   }
 }
+
 
 function guessInputChangeHandler(e) {
   // console.log(codeEditor.getValue())
@@ -250,6 +265,7 @@ function guessInputUpdateHandler(payload) {
 }
 
 function violation(type) {
+  socket.emit('winner', { winner: 2, playerNumber, username: $('#header-username').text()})
   alert(`first player violation ---> output: ${type}`);
 }
 

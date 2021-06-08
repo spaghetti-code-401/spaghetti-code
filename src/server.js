@@ -12,6 +12,8 @@ const challengeRoute=require('./routes/challenges')
 const leaderboardRoute=require('./routes/leaderboard')
 const randomRoute=require('./routes/getRandom')
 
+const userModel = require('./models/user')
+
 const { makeId } = require('./utils/makeId')
 
 app.use(express.json());
@@ -148,6 +150,8 @@ io.on('connection', client => {
   client.on('editorInputChange', editorInputChangeHandler);
   client.on('firstPlayerSubmission', firstPlayerSubmissionHandler);
   client.on('guessInputChange', guessInputChangeHandler);
+  client.on('secondPlayerSubmission', secondPlayerSubmissionHandler);
+  client.on('winner', winnerHandler);
 });
 
 function gameHandler(roomCode) {
@@ -155,8 +159,8 @@ function gameHandler(roomCode) {
 }
 
 function editorInputChangeHandler(payload) {
-  console.log(payload.editorCode);
-  console.log(payload.roomCode);
+  // console.log(payload.editorCode);
+  // console.log(payload.roomCode);
   io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
 }
 
@@ -170,6 +174,37 @@ function guessInputChangeHandler(payload) {
   io.sockets.to(payload.roomCode).emit('guessInputUpdate', payload.guessCode)
 }
 
+function secondPlayerSubmissionHandler(payload) {
+  io.sockets.to(payload.roomCode).emit('receiveSecondPlayerSubmission', payload);
+};
+
+async function winnerHandler(payload) {
+  // payload.winner
+  // payload.playerNumber
+  // payload.username
+  console.log('MONGOOSE --------------', payload);
+
+  if (payload.winner === payload.playerNumber) {
+    // WINNER -> increase username score
+    let user = await userModel.findOneAndUpdate({
+      username: payload.username
+    }, {$inc: {score: 50}}, {
+      new: true
+    });
+    console.log('WINNER USER --->', user)
+  }
+  if (payload.winner !== payload.playerNumber) {
+    // LOSER -> decrease username score
+    let user = await userModel.findOneAndUpdate({
+      username: payload.username
+    }, {$inc: {score: -25}}, {
+      new: true
+    });
+    console.log('LOSER USER --->', user)
+  }
+
+  io.sockets.to(payload.roomCode).emit('rematch', payload);
+}
 
 
 
