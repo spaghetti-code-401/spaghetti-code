@@ -9,6 +9,8 @@ const notFound = require('./error-handlers/404.js');
 const oauth = require('../src/middleware/oauth')
 const bearer = require('../src/middleware/bearer')
 const challengeRoute=require('./routes/challenges')
+const leaderboardRoute=require('./routes/leaderboard')
+const randomRoute=require('./routes/getRandom')
 
 const { makeId } = require('./utils/makeId')
 
@@ -82,6 +84,8 @@ app.get('/dashboard', bearer, (req ,res) => {
 // })
  
 app.use(challengeRoute);
+app.use(leaderboardRoute);
+app.use(randomRoute);
 // -------------SOCKET-------------
 const clientRooms = {}
 
