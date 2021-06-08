@@ -15,8 +15,11 @@ const leaderboardRoute=require('./routes/leaderboard')
 const randomRoute=require('./routes/getRandom')
 const userRoute=require('./routes/users')
 
-const { makeId } = require('./utils/makeId');
-const { access } = require('fs');
+
+const userModel = require('./models/user')
+
+const { makeId } = require('./utils/makeId')
+
 
 app.use(cookieParser())
 app.use(express.json());
@@ -167,6 +170,44 @@ io.on('connection', client => {
   client.on('editorInputChange', editorInputChangeHandler);
   client.on('firstPlayerSubmission', firstPlayerSubmissionHandler);
   client.on('guessInputChange', guessInputChangeHandler);
+  client.on('secondPlayerSubmission', secondPlayerSubmissionHandler);
+  client.on('winner', winnerHandler);
+
+  // we kept it here to access the client object
+  // to send the rematch event to the client alone
+  // because sending it back to the whole room will cause
+  // duplication in the event
+  async function winnerHandler(payload) {
+    // payload.winner
+    // payload.playerNumber
+    // payload.username
+    console.log('MONGOOSE --------------', payload);
+  
+    if (payload.winner === payload.playerNumber) {
+      // WINNER -> increase username score
+      let user = await userModel.findOneAndUpdate({
+        username: payload.username
+      }, {$inc: {score: 50}}, {
+        new: true
+      });
+      console.log('WINNER USER --->', user)
+    }
+    if (payload.winner !== payload.playerNumber) {
+      // LOSER -> decrease username score
+      let user = await userModel.findOneAndUpdate({
+        username: payload.username
+      }, {$inc: {score: -25}}, {
+        new: true
+      });
+      console.log('LOSER USER --->', user)
+    }
+    
+    // this will emit rematch twice for each user, unwanted behavior
+    // io.sockets.broadcast.to(payload.roomCode).emit('rematch', payload);
+
+    // this will emit rematch once 
+    client.emit('rematch', payload);
+  }
 });
 
 function gameHandler(roomCode) {
@@ -174,8 +215,8 @@ function gameHandler(roomCode) {
 }
 
 function editorInputChangeHandler(payload) {
-  console.log(payload.editorCode);
-  console.log(payload.roomCode);
+  // console.log(payload.editorCode);
+  // console.log(payload.roomCode);
   io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
 }
 
@@ -188,6 +229,11 @@ function guessInputChangeHandler(payload) {
   console.log(payload.roomCode);
   io.sockets.to(payload.roomCode).emit('guessInputUpdate', payload.guessCode)
 }
+
+function secondPlayerSubmissionHandler(payload) {
+  io.sockets.to(payload.roomCode).emit('receiveSecondPlayerSubmission', payload);
+};
+
 
 
 
