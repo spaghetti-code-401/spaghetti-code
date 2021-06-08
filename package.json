@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/spaghetti-code-401/spaghetti-code#readme",
   "dependencies": {
+    "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
