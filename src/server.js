@@ -201,12 +201,14 @@ io.on('connection', client => {
       });
       console.log('LOSER USER --->', user)
     }
+
+    let score = await userModel.find({username: payload.username}).score;
     
     // this will emit rematch twice for each user, unwanted behavior
     // io.sockets.broadcast.to(payload.roomCode).emit('rematch', payload);
 
     // this will emit rematch once 
-    client.emit('rematch', payload);
+    client.emit('rematch', score);
   }
 });
 

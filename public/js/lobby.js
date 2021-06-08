@@ -275,8 +275,12 @@ function violation(type) {
   alert(`first player violation ---> output: ${type}`);
 }
 
-function rematchHandler(payload) {
+function rematchHandler(score) {
   // showGameScreen();
+
+  // set new score
+  $('#header-score').text(score)
+
   $('#guess-input').val('');
   codeEditor.setValue('');
 
