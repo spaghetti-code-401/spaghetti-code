@@ -7,14 +7,6 @@
 
 ---
 
-[Trello Board](https://trello.com/b/hT84orMX/spaghetti-code)
-
----
-
-![schema](./assets/image.png)
-
----
-
 - **Conflict Plan**
   - In the case of conflict, the group will resort to voting.
 
