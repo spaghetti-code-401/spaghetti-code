@@ -3,7 +3,8 @@
 const express = require('express');
 const app = express();
 
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
 
 const errorHandler = require('./error-handlers/500.js');
 const notFound = require('./error-handlers/404.js');
@@ -22,7 +23,7 @@ const userModel = require('./models/user')
 const { makeId } = require('./utils/makeId')
 
 
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,22 +35,15 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 app.get('/', homeBearer, (req,res)=>{
- res.render('home')
+ res.status(200).render('home')
 })
+
 app.get('/oauth', oauth, (req, res) => {
   res.cookie('auth-token', req.token)
   res.cookie('sign', 'enter your name')
   res.redirect('/dashboard')
 })
-app.get('/guess', bearer,(req,res)=>{
-  let user = req.user;
-  let formattedUser = {
-    username: user.username,
-    score: user.score,
-    avatar_url: user.avatar_url
-  }
-  res.render('guess', {formattedUser});
-})
+
 app.get('/lobby', bearer,(req,res)=>{
   let user = req.user;
   let formattedUser = {
@@ -59,7 +53,7 @@ app.get('/lobby', bearer,(req,res)=>{
   }
   // API comment
   // res.json(formattedUser);
-  res.render('lobby', { formattedUser });
+  res.status(200).render('lobby', { formattedUser });
 })
 
 app.get('/editor', bearer,(req,res)=>{
@@ -69,7 +63,7 @@ app.get('/editor', bearer,(req,res)=>{
     score: user.score,
     avatar_url: user.avatar_url
   }
-  res.render('editor', {formattedUser});
+  res.status(200).render('editor', {formattedUser});
 })
 
 app.get('/dashboard', bearer, (req ,res) => {
@@ -80,7 +74,7 @@ app.get('/dashboard', bearer, (req ,res) => {
     avatar_url: user.avatar_url
   }
 
-  res.render('dashboard', {formattedUser});
+  res.status(200).render('dashboard', {formattedUser});
 })
 
 // app.get('/admin',bearer,(req,res)=>{
@@ -98,13 +92,30 @@ app.get('/logout',(req,res)=>{
   res.redirect('/')
 })
 
+app.post('/test-token', async (req, res) => {
 
-app.get('/log-out', (req, res) => {
+  let userRecord = {
+    username: req.body.email,
+    password: 'oauth',
+    avatar_url: 'test',
+    bio: 'test'
+  };
+  let token = jwt.sign({ username: userRecord.username }, process.env.SECRET);
   
-  res.cookie('auth-token', '')
-  res.redirect('/')
+  userRecord.token = token;
+  const check = jwt.verify(userRecord.token, process.env.SECRET);
+  const result = await userModel.findOne({ username: check.username });
+  let user;
+  if (result) {
+    user = result;
+  } else {
+    let newUser = new userModel(userRecord);
+    user = await newUser.save();
+  }
+  
+  res.status(201).json({token});
 })
- 
+
 app.use(challengeRoute);
 app.use(leaderboardRoute);
 app.use(randomRoute);
@@ -238,12 +249,8 @@ function secondPlayerSubmissionHandler(payload) {
   io.sockets.to(payload.roomCode).emit('receiveSecondPlayerSubmission', payload);
 };
 
-
-
-
-
 // ERROR HANDLERS
-app.use('*', bearer, notFound);
+app.use('*', notFound);
 app.use(errorHandler);
 
 module.exports = {

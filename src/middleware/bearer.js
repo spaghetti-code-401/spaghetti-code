@@ -6,7 +6,7 @@ const user =require('../models/user.js')
 const SECRET = 'mysecret' || process.env.SECRET;
 
 
-module.exports= async (req,res,next)=>{
+module.exports= async (req,res,next) => {
 
     try {
         const token =  req.cookies['auth-token']
