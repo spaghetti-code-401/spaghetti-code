@@ -40,8 +40,7 @@ app.get('/', homeBearer, (req,res)=>{
 
 app.get('/oauth', oauth, (req, res) => {
   res.cookie('auth-token', req.token)
-  res.cookie('sign', 'enter your name')
-  res.redirect('/dashboard')
+  res.status(200).redirect('/dashboard')
 })
 
 app.get('/lobby', bearer,(req,res)=>{
@@ -98,7 +97,8 @@ app.post('/test-token', async (req, res) => {
     username: req.body.email,
     password: 'oauth',
     avatar_url: 'test',
-    bio: 'test'
+    bio: 'test', 
+    role: 'admin'
   };
   let token = jwt.sign({ username: userRecord.username }, process.env.SECRET);
   
