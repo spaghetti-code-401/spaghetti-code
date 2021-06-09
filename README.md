@@ -7,7 +7,7 @@
 
 ---
   
-![spaghettiCode](./assets/spaghetti-code-02.png)
+![spaghettiCode](./assets/spaghetti-code-05.png)
 
 ---
 
