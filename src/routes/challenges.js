@@ -7,13 +7,6 @@ const challengeModel = require('../models/challenge');
 
 const mongoose = require('mongoose');
 
-const MONGODB_URI = process.env.MONGODB_URI;
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-})
 
 router.get('/challenge' ,bearer,async(req, res) => {
     let getAll = await challengeModel.find();

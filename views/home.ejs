@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,44 +18,60 @@
   
   </header>
 
-  <div id="oauth-card">
-    <a id="oauth-link-github" ><span class="fab fa-github"></span> Continue With GitHub</a>
-  </div>
-  
-  <div class="editor">
-    <div class="editor__wrapper">
-      <div class="editor__body">
-        <div id="editorCode" class="editor__code"></div>
+
+    <div id="oauth-card">
+      <a id="oauth-link-github"
+        ><span class="fab fa-github"></span> Continue With GitHub</a
+      >
+    </div>
+
+    <div class="editor">
+      <div class="editor__wrapper">
+        <div class="editor__body">
+          <div id="editorCode" class="editor__code"></div>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <!-- required Ace libraries -->
-  <script defer src="./js/ace-editor/src-min/ace.js"></script>
-  <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
-  <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script>
-  <!-- custom scripts -->
-  <script defer src="./js/home.js"></script>
-  <script defer src="./js/editor-console.js"></script>
-  <script>
-    const URL = 'https://github.com/login/oauth/authorize';
 
-    let options = {
-            client_id:'88070f9af0cd30ac368b',
-            redirect_uri : 'http://localhost:3000/oauth'
-        }
+    <!-- required Ace libraries -->
+    <script defer src="./js/ace-editor/src-min/ace.js"></script>
+    <script defer src="./js/ace-editor/src-min/mode-javascript.js"></script>
+    <script defer src="./js/ace-editor/src-min/ext-language_tools.js"></script>
+    <!-- custom scripts -->
+    <script defer src="./js/home.js"></script>
+    <script defer src="./js/editor-console.js"></script>
+    <script>
+      const URL = 'https://github.com/login/oauth/authorize';
 
-        // k1=v1&k2=v2
-        let queryString = Object.keys(options).map(key=> {
-            return `${key}=` + encodeURIComponent(options[key])
-        }).join('&');
-        //URL?k1=v1&k2=v2
-        let authURI = `${URL}?${queryString}`;
-        let link = document.getElementById('oauth-link-github');
-        link.setAttribute('href', authURI);
+      console.log('window.location.href ->', window.location.href);
 
+      let CLIENT_ID, REDIRECT_URI;
+      if (window.location.href === 'https://spaghetti-code.herokuapp.com/') {
+        CLIENT_ID = '200663f08142d8cca249';
+        REDIRECT_URI = 'https://spaghetti-code.herokuapp.com/oauth';
+      } else {
+        CLIENT_ID = '88070f9af0cd30ac368b';
+        REDIRECT_URI = 'http://localhost:3000/oauth';
+      }
 
-</script>
+      console.log('CLIENT_ID', CLIENT_ID)
+      console.log('REDIRECT_URI', REDIRECT_URI)
 
-</body>
+      let options = {
+        client_id: CLIENT_ID,
+        redirect_uri: REDIRECT_URI
+      };
+
+      // k1=v1&k2=v2
+      let queryString = Object.keys(options)
+        .map((key) => {
+          return `${key}=` + encodeURIComponent(options[key]);
+        })
+        .join('&');
+      //URL?k1=v1&k2=v2
+      let authURI = `${URL}?${queryString}`;
+      let link = document.getElementById('oauth-link-github');
+      link.setAttribute('href', authURI);
+    </script>
+  </body>
 </html>
