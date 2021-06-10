@@ -288,6 +288,8 @@ function rematchHandler(score) {
   // $('.editor__console').text('')
 
   if (playerNumber === 1) {
+    // removing output from console
+    resetCodeBtnHandler();
     playerNumber = 2;
   } else {
     playerNumber = 1;

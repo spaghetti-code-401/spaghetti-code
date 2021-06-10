@@ -123,18 +123,18 @@ function resetCodeBtnHandler() {
 
 editorLib.init();
 
-function verify() {
-  let output = [10, 20];
+// function verify() {
+//   let output = [10, 20];
 
-  while (consoleMessages.length > output.length) {
-    consoleMessages.shift();
-  }
-  for (let i = 0; i < consoleMessages.length; i++) {
-    if (consoleMessages[i].message === output[i]) {
-      consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
-    } else if (consoleMessages[i].message !== output[i]) {
-      consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
-    }
+//   while (consoleMessages.length > output.length) {
+//     consoleMessages.shift();
+//   }
+//   for (let i = 0; i < consoleMessages.length; i++) {
+//     if (consoleMessages[i].message === output[i]) {
+//       consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
+//     } else if (consoleMessages[i].message !== output[i]) {
+//       consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
+//     }
 
-  }
-}
+//   }
+// }

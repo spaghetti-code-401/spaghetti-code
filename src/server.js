@@ -87,7 +87,7 @@ app.get('/dashboard', bearer, (req ,res) => {
 // })
 
 app.get('/logout',(req,res)=>{
-  res.cookie("auth-token","")
+  res.cookie('auth-token','')
   res.redirect('/')
 })
 
@@ -126,12 +126,12 @@ const clientRooms = {}
 io.on('connection', client => {
   console.log('CLIENT ID: ', client.id);
   // console.log('CLIENT: ', client.nsp.sockets);
-  client.on('log', payload => {
-    console.log('LOG', payload.msg)
-  });
+  // client.on('log', payload => {
+  //   console.log('LOG', payload.msg)
+  // });
 
   client.on('newGame', newGameHandler);
-  function newGameHandler() {
+  function newGameHandler(arg) {
     const roomCode = makeId(5);
     clientRooms[client.id] = roomCode;
 
@@ -223,31 +223,31 @@ io.on('connection', client => {
     // this will emit rematch once 
     client.emit('rematch', score);
   }
+  
+  function gameHandler(roomCode) {
+    io.sockets.in(roomCode).emit('gameState', { msg: 'game Started!!' })
+  }
+  
+  function editorInputChangeHandler(payload) {
+    // console.log(payload.editorCode);
+    // console.log(payload.roomCode);
+    io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
+  }
+  
+  function firstPlayerSubmissionHandler(payload) {
+    io.sockets.to(payload.roomCode).emit('receiveFirstPlayerSubmission', payload.editorCodeResult);
+  }
+  
+  function guessInputChangeHandler(payload) {
+    console.log(payload.editorCode);
+    console.log(payload.roomCode);
+    io.sockets.to(payload.roomCode).emit('guessInputUpdate', payload.guessCode)
+  }
+  
+  function secondPlayerSubmissionHandler(payload) {
+    io.sockets.to(payload.roomCode).emit('receiveSecondPlayerSubmission', payload);
+  }
 });
-
-function gameHandler(roomCode) {
-  io.sockets.in(roomCode).emit('gameState', { msg: 'game Started!!' })
-}
-
-function editorInputChangeHandler(payload) {
-  // console.log(payload.editorCode);
-  // console.log(payload.roomCode);
-  io.sockets.to(payload.roomCode).emit('editorInputUpdate', payload.editorCode)
-}
-
-function firstPlayerSubmissionHandler(payload) {
-  io.sockets.to(payload.roomCode).emit('receiveFirstPlayerSubmission', payload.editorCodeResult);
-};
-
-function guessInputChangeHandler(payload) {
-  console.log(payload.editorCode);
-  console.log(payload.roomCode);
-  io.sockets.to(payload.roomCode).emit('guessInputUpdate', payload.guessCode)
-}
-
-function secondPlayerSubmissionHandler(payload) {
-  io.sockets.to(payload.roomCode).emit('receiveSecondPlayerSubmission', payload);
-};
 
 // ERROR HANDLERS
 app.use('*', notFound);
@@ -260,4 +260,6 @@ module.exports = {
       console.log(`Server Up on ${port}`);
     });
   },
+  io,
+  ioServer: server,
 };

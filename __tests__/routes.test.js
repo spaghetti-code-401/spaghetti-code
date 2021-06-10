@@ -40,7 +40,7 @@ describe('::: LOGIN ::::', () => {
       email: 'batteekh@email.com',
       password: '12345678'
     }).then(data => {
-      console.log('TOKEN:::::::::::::::::', data.body.token);
+      // console.log('TOKEN:::::::::::::::::', data.body.token);
       tokenI=data.body.token
       return mockServer
         .get('/editor')
