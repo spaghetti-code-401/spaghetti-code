@@ -6,7 +6,7 @@ const user =require('../models/user.js')
 const SECRET = 'mysecret' || process.env.SECRET;
 
 
-module.exports= async (req,res,next) => {
+module.exports = async (req,res,next)=>{
 
     try {
         const token =  req.cookies['auth-token']
@@ -14,12 +14,12 @@ module.exports= async (req,res,next) => {
         req.user = validUser;
 
         if(validUser){
-            next()
+            res.redirect('/dashboard');
         }else{
-            res.redirect('/')
+            next()
         }
 
     } catch(e) {
-        next('INVALID LOGIN')
+        next()
     }
 }

@@ -4,7 +4,7 @@
   "description": "- **Idea**: Private-sessioned code battles (with Video/Audio chat)   - First player writes the code, second player guesses the output   - Both players attempt to solve the challenge as quick as possible   - Both players attempt to solve the challenge in smallest code size",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --verbose --detectOpenHandles",
     "start": "node index.js",
     "watch": "nodemon"
   },
@@ -28,5 +28,11 @@
     "mongoose": "^5.12.12",
     "socket.io": "^4.1.2",
     "superagent": "^6.1.0"
+  },
+  "devDependencies": {
+    "@code-fellows/supergoose": "^1.1.0",
+    "jest": "^27.0.4",
+    "socket.io-client": "^4.1.2",
+    "supertest": "^6.1.3"
   }
 }

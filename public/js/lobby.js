@@ -1,6 +1,6 @@
 const socket = io('/');
 
-let playerNumber, roomCode;
+let playerNumber, roomCode, globalEditorCodeResult;
 const guessCodeBtn = document.getElementById('guess-button');
 
 // DOM elements
@@ -24,6 +24,9 @@ socket.on('gameState', gameStateHandler);
 socket.on('editorInputUpdate', editorInputUpdateHandler);
 socket.on('receiveFirstPlayerSubmission', receiveFirstPlayerSubmissionHandler);
 socket.on('guessInputUpdate', guessInputUpdateHandler);
+socket.on('receiveSecondPlayerSubmission', receiveSecondPlayerSubmissionHandler);
+
+socket.on('rematch', rematchHandler);
 
 // Handlers
 function newGameHandler(e) {
@@ -103,6 +106,7 @@ function setReadOnly() {
   codeEditor.setReadOnly(true);
   executeCodeBtn.removeEventListener('click', executeCodeBtnHandler);
   resetCodeBtn.removeEventListener('click', resetCodeBtnHandler);
+  // submitCodeBtn.addEventListener('click', submitCodeBtnHandler);
 }
 
 function editorInputChangeHandler(e) {
@@ -121,8 +125,12 @@ function editorInputUpdateHandler(payload) {
 
 let firstTimerInterval;
 function firstPlayerTimer() {
+  // initializing both timers
   let timer = 60;
   $('#first-player-timer').text(timer);
+  let secondPlayerTimer = 20;
+  $('#second-player-timer').text(secondPlayerTimer);
+
   if (playerNumber === 1) {
     submitCodeBtn.addEventListener('click', submitCodeBtnHandler);
   }
@@ -147,8 +155,6 @@ function submitCodeBtnHandler(e) {
   let editorCodeResult = consoleMessages[0];
 
   socket.emit('firstPlayerSubmission', { editorCodeResult, roomCode });
-
-  // socket.emit
 }
 
 let secondTimerInterval;
@@ -186,9 +192,10 @@ function receiveFirstPlayerSubmissionHandler(payload) {
     guessCodeBtn.addEventListener('click', guessCodeBtnHandler);
   }
 
-  let timer = 20;
-  $('#second-player-timer').text(timer);
+  globalEditorCodeResult = payload.message;
+  console.log('PAYLOAD.MESSAGE', globalEditorCodeResult)
 
+  let timer = 20;
   secondTimerInterval = setInterval(() => {
     timer--;
     $('#second-player-timer').text(timer);
@@ -197,43 +204,57 @@ function receiveFirstPlayerSubmissionHandler(payload) {
     }
   }, 1000);
 
-  function guessCodeBtnHandler() {
+}
+
+function guessCodeBtnHandler() {
+  clearInterval(secondTimerInterval);
+  // payload.message
+  let answer = $('#guess-input').val();
+  if (!isNaN(parseInt(answer))) {
+    answer = parseInt(answer);
+  }
+  console.log('ANSWER', answer);
+  // console.log(typeof answer == 'number');
+
+  // to fix single quotations
+  if (typeof answer !== 'number') {
+    if (answer[0] === `'` || answer.includes(`'`)) {
+      answer = answer.replace(/\'/g, `"`);
+      console.log('FIXED ANSWER', answer);
+    }
+  }
+
+  socket.emit('secondPlayerSubmission', { globalEditorCodeResult, answer, roomCode });
+}
+
+function receiveSecondPlayerSubmissionHandler(payload) {
+  if (playerNumber === 1) {
     clearInterval(secondTimerInterval);
-    // payload.message
-    let answer = $('#guess-input').val();
-    if (!isNaN(parseInt(answer))) {
-      answer = parseInt(answer);
-    }
-    console.log('ANSWER', answer);
-    // console.log(typeof answer == 'number');
+  }
 
-    // to fix single quotations
-    if (typeof answer !== 'number') {
-      if (answer[0] === `'` || answer.includes(`'`)) {
-        answer = answer.replace(/\'/g, `"`);
-        console.log('FIXED ANSWER', answer);
-      }
+  console.log('FINAL PAYLOAAAAAD', payload)
+  
+  if (payload.globalEditorCodeResult === payload.answer) {
+    socket.emit('winner', { winner: 2, playerNumber, username: $('#header-username').text(), roomCode})
+    if (playerNumber === 2) {
+      alert(
+        `🟢 CORRECT 😎 ---> output: ${payload.globalEditorCodeResult} === guess: ${payload.answer}`
+      );
+    } else if (playerNumber === 1) {
+      alert(`🔴 WOOPSIE 😝 ---> they guessed it right`);
     }
-
-    if (payload.message === answer) {
-      if (playerNumber === 2) {
-        alert(
-          `🟢 CORRECT 😎 ---> output: ${payload.message} === guess: ${answer}`
-        );
-      } else if (playerNumber === 1) {
-        alert(`🔴 WOOPSIE 😝 ---> they guessed it right`);
-      }
-    } else {
-      if (playerNumber === 2) {
-        alert(
-          `🔴 TSK TSK TSK 😢 ---> output: ${payload.message} !== guess: ${answer}`
-        );
-      } else if (playerNumber === 1) {
-        alert(`🟢 LET'S GOOOO 🤓 ---> you riddled them well`);
-      }
+  } else {
+    socket.emit('winner', { winner: 1, playerNumber, username: $('#header-username').text(), roomCode})
+    if (playerNumber === 2) {
+      alert(
+        `🔴 TSK TSK TSK 😢 ---> output: ${payload.globalEditorCodeResult} !== guess: ${payload.answer}`
+      );
+    } else if (playerNumber === 1) {
+      alert(`🟢 LET'S GOOOO 🤓 ---> you riddled them well`);
     }
   }
 }
+
 
 function guessInputChangeHandler(e) {
   // console.log(codeEditor.getValue())
@@ -250,6 +271,55 @@ function guessInputUpdateHandler(payload) {
 }
 
 function violation(type) {
+  socket.emit('winner', { winner: 2, playerNumber, username: $('#header-username').text(), roomCode})
   alert(`first player violation ---> output: ${type}`);
+}
+
+function rematchHandler(score) {
+  // showGameScreen();
+  console.log(score)
+
+  // set new score
+  $('#header-score').text(`Score: ${score}`)
+
+  // erasing previous values
+  $('#guess-input').val('');
+  codeEditor.setValue(defaultCode);
+  // $('.editor__console').text('')
+
+  if (playerNumber === 1) {
+    // removing output from console
+    resetCodeBtnHandler();
+    playerNumber = 2;
+  } else {
+    playerNumber = 1;
+  }
+
+  console.log('playerNumber', playerNumber);
+  console.log('roomCode', roomCode);
+
+  if (playerNumber === 2) {
+    setReadOnly();
+    submitCodeBtn.removeEventListener('click', submitCodeBtnHandler);
+    $('#guess-input').prop('readonly', false);
+    $('#guess-input').on(
+      'propertychange change click keyup input paste',
+      guessInputChangeHandler
+    );
+  }
+
+  if (playerNumber === 1) {
+    codeEditor.setReadOnly(false);
+    $('#guess-input').prop('readonly', true);
+    $(document).on(
+      'propertychange change click keyup input paste',
+      editorInputChangeHandler
+    );
+    executeCodeBtn.addEventListener('click', executeCodeBtnHandler);
+    resetCodeBtn.addEventListener('click', resetCodeBtnHandler);
+    guessCodeBtn.removeEventListener('click', guessCodeBtnHandler);
+  }
+
+  firstPlayerTimer();
 }
 

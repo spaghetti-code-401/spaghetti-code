@@ -100,41 +100,41 @@ resetCodeBtn.addEventListener('click', () => {
   editorLib.clearConsoleScreen();
 });
 
-verifyCodeBtn.addEventListener('click', () => {
-  // clear console messages
-  editorLib.clearConsoleScreen();
+// verifyCodeBtn.addEventListener('click', () => {
+//   // clear console messages
+//   editorLib.clearConsoleScreen();
 
-  // get input from code editor
-  let userCode = codeEditor.getValue();
-  userCode = userCode + 'console.log(add(5));console.log(add(10));'
+//   // get input from code editor
+//   let userCode = codeEditor.getValue();
+//   userCode = userCode + 'console.log(add(5));console.log(add(10));'
   
-  // run the user code
-  try {
-    new Function(userCode)();
-  } catch (e) {
-    console.error(e);
-  }
+//   // run the user code
+//   try {
+//     new Function(userCode)();
+//   } catch (e) {
+//     console.error(e);
+//   }
 
-  verify();
+//   verify();
   
-  // print to our console
-  editorLib.printToConsole();
-});
+//   // print to our console
+//   editorLib.printToConsole();
+// });
 
 editorLib.init();
 
-function verify() {
-  let output = [10, 20];
+// function verify() {
+//   let output = [10, 20];
 
-  while (consoleMessages.length > output.length) {
-    consoleMessages.shift();
-  }
-  for (let i = 0; i < consoleMessages.length; i++) {
-    if (consoleMessages[i].message === output[i]) {
-      consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
-    } else if (consoleMessages[i].message !== output[i]) {
-      consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
-    }
+//   while (consoleMessages.length > output.length) {
+//     consoleMessages.shift();
+//   }
+//   for (let i = 0; i < consoleMessages.length; i++) {
+//     if (consoleMessages[i].message === output[i]) {
+//       consoleMessages[i].message = `${consoleMessages[i].message}: Correct Answer`; 
+//     } else if (consoleMessages[i].message !== output[i]) {
+//       consoleMessages[i].message = `${consoleMessages[i].message}: False Answer`; 
+//     }
 
-  }
-}
+//   }
+// }
