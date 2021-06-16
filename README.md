@@ -52,11 +52,11 @@ MongoDB schemas
 
 ---
 
-### User Route
+### Leaderboard Route
 
 | Method | Endpoint | Description  |
 | :---: | :--- | :--- |
-| GET | /leadreboard | Gets the top 10 users in the DB sorted by score. |
+| GET | /leaderboard | Gets the top 10 users in the DB sorted by score. |
 
 ---
 
